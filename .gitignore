@@ -1,2 +1,5 @@
-# ignore ALL files in any directory named private
+# Files in the 'private' directory contain information which I do not whish to share.
 private/
+
+chromedriver/
+.ipynb_checkpoints/
