@@ -42,6 +42,7 @@ dependencies:
   - sqlite=3.41.2=h2bbff1b_0
   - tbb=2021.8.0=h59b6b97_0
   - tk=8.6.12=h2bbff1b_0
+  - typing=3.10.0.0=py312haa95532_0
   - tzdata=2023c=h04d1e81_0
   - urllib3=1.26.18=py312haa95532_0
   - vc=14.2=h21ff451_1
