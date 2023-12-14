@@ -16,36 +16,36 @@ To run this code:
     - Click the [`Fork`](https://github.com/Adam-Calleja/Analysis-of-UK-School-Performance#fork-destination-box) button in the right-top corner of this page. 
     - Clone the repo, where `YourUsername` is yor GitHub username
     
-    ```
-    $ git clone https://github.com/YourUsername/Analysis-of-UK-School-Performance
-    $cd Analysis-of-UK-School-Performance
-    ```
+        ```
+        $ git clone https://github.com/YourUsername/Analysis-of-UK-School-Performance
+        $cd Analysis-of-UK-School-Performance
+        ```
 
     - Add the following to your remotes:
 
-    ```
-    $ git remote add upstream https://github.com/Adam-Calleja/Analysis-of-UK-School-Performance
-    ```
+        ```
+        $ git remote add upstream https://github.com/Adam-Calleja/Analysis-of-UK-School-Performance
+        ```
 
 3. Create a conda environment with all the required packages:
 
-```
-$ conda env create -f environment.yml
-```
+    ```
+    $ conda env create -f environment.yml
+    ```
 
 4. Activate the conda environment.
 
-On Linux / Mac OS X:
+    On Linux / Mac OS X:
 
-```
-$ source activate UK-School-Analysis
-```
+    ```
+    $ source activate UK-School-Analysis
+    ```
 
-On Windows: 
+    On Windows: 
 
-```
-$ activate UK-School-Analysis
-```
+    ```
+    $ activate UK-School-Analysis
+    ```
 
 You can learn more about conda environments in the [Managing Environments](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#activating-an-environment) section of the conda documentation. 
 
