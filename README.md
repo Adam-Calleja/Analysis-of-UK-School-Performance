@@ -49,15 +49,13 @@ $ activate UK-School-Analysis
 
 You can learn more about conda environments in the [Managing Environments](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#activating-an-environment) section of the conda documentation. 
 
-NOTE: use https://github.com/mbeyeler/opencv-machine-learning/blob/master/README.md?plain=1 as a guide.
-
 # Getting the latest code
 
 If you followed all of the instructions above:
 
 - forked the repo.
 - cloned the repo.
-added the `ubstream` remote repository.
+added the `upstream` remote repository.
 
 then you can always grab the latest code by running a git pull:
 
