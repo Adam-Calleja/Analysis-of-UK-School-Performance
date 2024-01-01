@@ -41,84 +41,161 @@ import requests
 import os
 import pandas as pd
 
-# TODO: Write docstring according to https://numpydoc.readthedocs.io/en/latest/format.html
-# TODO: convert this file from OOP to functional programming (only include function headers)
-
-class DataAcquisition:
+def read_parliamentary_constituencies() -> List[str]:
     """
-    A class used to aquire the data required for my 'Analysis of UK School Performance' project.
+    Returns a list of all the parliamentary constituencies in the UK. 
 
-    Attributes
-    ----------
-    user_agent : str
-        The user agent to be used when making html requests. 
+    This function is only called if the file 
+    'uk_parliamentary_constituencies.txt' exists. It reads the file 
+    'uk_parliamentary_constituencies.txt' and returns a list of all the 
+    parliamentary constituencies contained within the file. 
 
-    Methods
+    Returns
     -------
-    get_school_names() -> List[str]
-        Returns a list of the names of all the schools in the UK.
-    get_school_urns() -> List[str]
-        Returns a list of the URN's of all the schools in the UK.
-    get_parliamentary_constituencies() -> List[str]
-        Returns a list of all the parliamentary constituencies in the UK. 
-    get_school_data(rows: List[str], school_name: str, school_urn: str) -> List[Untion[str, int]]
-        Returns a list containing the school name, the school's URN and all of the specified data for that school. 
-    get_all_data(rows: List[str]) -> pd.DataFrame
-        Returns a Pandas DataFrame containing all of the specified data for all of the schools in the UK. 
+    uk_parliamentary_constituencies() : List[str]
+        A list of all the parliamentary constituencies in the UK.
+    """
+    
+    return None
+
+def scrape_parliamentary_constituencies() -> List[str]:
+    """
+    Returns a list of all the parliamentary constituencies in the UK. 
+
+    This function is only called if the file 
+    'uk_parliamentary_constituencies.txt' does not exists. It scrapes 
+    wikipedia to obtain and return a list of all the parliamentary 
+    constituencies in the UK.
+
+    Returns
+    -------
+    uk_parliamentary_constituencies() : List[str]
+        A list of all the parliamentary constituencies in the UK.
+    """
+    
+    return None
+
+def get_parliamentary_constituencies() -> List[str]:
+    """
+    Returns a list of all the parliamentary constituencies in the UK. 
+
+    First checks if there exists a file called 
+    'uk_parliamentary_constituencies.txt' If such a file exists, it is 
+    calls the function 'read_parliamentary_constituencies(). If such a 
+    file does not exist, it calls the function
+    'scrape_parliamentary_constituencies()'.
+
+    Returns
+    -------
+    uk_parliamentary_constituencies() : List[str]
+        A list of all the parliamentary constituencies in the UK.
     """
 
-    def __init__(self, user_agent):
-        self.user_agent = user_agent
+    return None
 
-    def get_school_names() -> List[str]:
-        """
-        Returns a list of the names of all the schools in the UK. 
+def read_school_identification_information() -> pd.DataFrame:
+    """
+    Returns a pd.DataFrame containing the name and URN of all UK schools. 
 
-        First checks if there exists a file called 'uk_school_names.csv'. 
-        If such a file exists, it is read and a list of all the school names contained within the file is returned. 
-        If such a file does not exist, the .gov website it scraped to obtain and return a list of the names of all the schools in the UK.
+    This function is only called if the file 
+    'uk_school_identification_information.csv' exists. 
+    It returns the pd.DataFrame stored within the
+    'uk_school_identification_information.csv' file.
+    This pd.DataFrame contains the name and Unique Identification Number
+    (URN) for every school in the UK.
 
-        Returns
-        -------
-        uk_school_names: List[str]
-            A list of the names of all the schools in the UK.
-        """
+    Returns
+    -------
+    uk_school_identification_information : pd.DataFrame
+        A pd.DataFrame containing the name and URN of every UK school.
+    """
 
-    def get_parliamentary_constituencies() -> List[str]:
-        """
-        Returns a list of all the parliamentary constituencies in the UK. 
+    return None
 
-        First checks if there exists a file called 'uk_parliamentary_constituencies.csv'
-        If such a file exists, it is read and a list of all the UK parliamentary constituencies is returned. 
-        If such a file does not exist, wikipedia.org is scraped to obtain and return  a list of all the UK parliamentary constituencies. 
+def scrape_school_identification_information() -> List[str]:
+    """
+    Returns a pd.DataFrame containing the name and URN of all UK schools. 
 
-        Returns
-        -------
-        uk_parliamentary_constituencies() -> List[str]
-            A list of all the parliamentary constituencies in the UK.
-        """
+    This function is only called if the file
+    'uk_school_identification_information.csv' does not exist. 
+    It scrapes the gov.uk website to obtain and return a pd.DataFrame 
+    containing the name and Unique Identification Number (URN) for every
+    school in the UK. 
 
-        uk_parliamentary_constituencies_path = "data/uk_parliamentary_constituencies.csv"
+    Returns
+    -------
+    uk_school_identification_information : pd.DataFrame
+        A pd.DataFrame containing the name and URN of every UK school.
+    """
 
-        if os.path.isfile(uk_parliamentary_constituencies_path):
-            constituencies = list(pd.read_csv(uk_parliamentary_constituencies_path)['constituencies'])
-            
-            return constituencies
+def get_school_identification_information() -> List[str]:
+    """
+    Returns a pd.DataFrame containing the name and URN of all UK schools. 
 
-        wikipedia_url = "https://en.wikipedia.org/wiki/Constituencies_of_the_Parliament_of_the_United_Kingdom"
+    First checks if there exists a file called
+    'uk_school_identification_information.csv'. 
+    If such a file exists, it calls the function 
+    'read_school_identification_information()'.
+    If such a file does not exist, it calls the function
+    'scrape_school_identification_information()'
 
-        uk_parliamentary_constituencies = []
+    Returns
+    -------
+    uk_school_identification_information : pd.DataFrame
+        A pd.DataFrame containing the name and URN of every UK school.
+    """
 
-        page = requests.get(wikipedia_url)
-        soup = BeautifulSoup(page.content, 'html.parser')
+    return None
 
-        for row_index in range(len(rows)):
-            pass
+def get_single_school_data(school_name, school_urn, data_rows) -> pd.DataFrame:
+    """
+    Returns a pd.DataFrame containing the data required for the school.
 
-        return(soup)
+    Scrapes the gov.uk website to obtain the required information for the
+    school specified. Returns this information as a pd.DataFrame with 
+    columns for the school's name, Unique Identification Number (URN) and
+    parliamentary constituency as well as the required information.
+
+    Parameters
+    ----------
+    school_name : str
+        The name of the school whose data is to be obtained. 
+    school_urn : str
+        The Unique Identification Number (URN) of the school whose data
+        is to be obtained.
+    data_rows : List[str]
+        A list of the data rows to be aquired for the school.
+
+    Returns
+    -------
+    single_school_data : pd.DataFrame
+        A pd.DataFrame containing the required data for the school specified. 
+    """
+
+    return None
+
+def get_all_school_data(data_rows) -> pd.DataFrame:
+    """
+    Returns a pd.DataFrame containing the required data for all UK schools
+
+    Calls the function 'get_single_school_data()' for each school returned
+    by 'get_school_identification_information()' concatenating the 
+    pd.DataFrame returned to obtain a single pd.DataFrame containing the
+    information required for all schools in the UK. This DataFrame
+    contains columns for the school's name, Unique Identification Number 
+    (URN) and parliamentary consitituency as well as the required
+    information.
+
+    Parameters
+    ----------
+    data_rows : List[str]
+        A list of the data rows to be aquired for the schools.
+
+    Returns
+    -------
+    all_school_data : pd.DataFrame
+        A pd.DataFRame containing the required data for all UK schools.  
     
+    """
 
-if __name__ == "__main__":
-    soup = DataAcquisition.get_parliamentary_constituencies()
-
-
+    return None
