@@ -1,6 +1,14 @@
+import sys
+
+sys.path.append('..')
+
 import pytest 
 import DataAquisition
 from typing import List
+
+EXPECTED_PARLIAMENTARY_CONSTITUENT_LIST = ['Aldershot', 'Aldridge-Brownhills', 'Altrincham and Sale West', 'Ashton-under-Lyne', 'Banbury', 
+                                           'Aberdeen North', 'Aberdeen South', 'Angus', 'Ayr, Carrick and Cumnock', 'Argyll and Bute', 
+                                           'Belfast East', 'Belfast North', 'Fermanagh and South Tyrone', 'Foyle', 'East Antrim']
 
 class TestDataAcquisition:
     """
@@ -17,59 +25,43 @@ class TestDataAcquisition:
     - Aldershot
     - Aldridge-Brownhills
     - Altrincham and Sale West
-    - Amber Valley
-    - Arundel and South Downs 
-    - Ashfield
-    - Ashford
     - Ashton-under-Lyne
-    - Aylesbury
     - Banbury
 
     Scotland: 
     - Aberdeen North
     - Aberdeen South
-    - Airdrie and Shotts
     - Angus
     - Argyll and Bute
     - Ayr, Carrick and Cumnock
-    - Banff and Buchan
-    - Berwickshire, Roxburgh and Selkirk
-    - Caithness, Sutherland and Easter Ross
-    - Central Ayrshire
 
     Nothern Ireland: 
     - Belfast East
     - Belfast North
-    - Belfast South 
-    - Belfast West
     - East Antrim
-    - East Londonderry
     - Fermanagh and South Tyrone
     - Foyle 
-    - Langan Valley
-    - Mid Ulster
     
     Methods
     -------
     test_read_parliamentary_constituents_correct_return()
-        Tests that the list returned by the function
+        Tests that the list returned by the function 
         'read_parliamentary_constituents()' is correct. 
 
     test_get_parliamentary_constituencies_file_exists_correct_return()
         Tests that the list returned by the function 
-        'get_parliamentary_constituents' is correct when the file
+        'get_parliamentary_constituents' is correct when the file 
         'uk_parliamentary_constituencies.txt' exists.
 
     test_get_parliamentary_constituencies_file_does_not_exist_correct_return()
         Tests that the list returned by the function 
-        'get_parliamentary_constituents' is correct when the file
+        'get_parliamentary_constituents' is correct when the file 
         'uk_parliamentary_constituencies.txt' does not exist.
 
-    test_get_parliamentary_constituents_file_does_not_exist_creates_nonempty_file()
-        Tests that calling the function 'get_parliamentary_constituents'
-        when the file 'uk_parliamentary_constituencies.txt' does not 
-        exist creates a non-empty file: 
-        'uk_parliamentary_constituencies.txt'.
+    test_get_parliamentary_constituents_file_does_not_exist_creates_correct_file()
+        Tests that calling the function 'get_parliamentary_constituents' 
+        when the file 'uk_parliamentary_constituencies.txt' does not exist
+          creates the correct file: 'uk_parliamentary_constituencies.txt'.
 
     test_scrape_parliamentary_constituencies_correct_return()
         Tests that the list returned by the function 
@@ -77,6 +69,21 @@ class TestDataAcquisition:
 
     """
 
-   
+    def test_read_parliamentary_constituents_correct_return(self):
+        """
+        Tests that the list returned by the function '
+        read_parliamentary_constituents()' is correct. 
+
+        This list should contain all of the parliamentary constituencies 
+        given in the documentation for this test class. 
+        """
+
+        # Arrange
+
+        # Assert
+        parliamentary_constituent_list = DataAquisition.read_parliamentary_constituencies()
+
+        # Act 
+        assert parliamentary_constituent_list == EXPECTED_PARLIAMENTARY_CONSTITUENT_LIST, "read_parliamentary_constituents() did not return correct list"
         
     
