@@ -5,6 +5,7 @@ sys.path.append('..')
 import pytest 
 import shutil
 from pathlib import Path
+import os
 
 import DataAquisition
 from typing import List
@@ -125,3 +126,22 @@ class TestDataAcquisition:
 
         # Assert
         assert parliamentary_constituent_list == EXPECTED_PARLIAMENTARY_CONSTITUENT_LIST, "get_parliamentary_constituents() did not return correct list"
+
+    def test_get_parliamentary_constituencies_file_does_not_exist_correct_return(self, temp_data_directory):
+        """
+        Tests that the list returned by the function 
+        'get_parliamentary_constituencies()' is correct when the file 
+        'uk_parliamentary_constituencies.txt' does not exist.
+
+        This list should contain all of the parliamentary constituencies 
+        given in the documentation for this test class.
+        """
+
+        # Arrange 
+
+        # Act
+        parliamentary_constituent_list = DataAquisition.get_parliamentary_constituencies()
+
+        # Assert
+        assert parliamentary_constituent_list == EXPECTED_PARLIAMENTARY_CONSTITUENT_LIST, "get_parliamentary_constituents() did not return correct list"
+        
