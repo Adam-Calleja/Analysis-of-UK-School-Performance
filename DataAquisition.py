@@ -65,7 +65,8 @@ def scrape_parliamentary_constituencies() -> List[str]:
     This function is only called if the file 
     'uk_parliamentary_constituencies.txt' does not exists. It scrapes 
     wikipedia to obtain and return a list of all the parliamentary 
-    constituencies in the UK.
+    constituencies in the UK and creates the file 
+    'uk_parliamentary_constituencies.txt'. 
 
     Returns
     -------
@@ -120,7 +121,7 @@ def scrape_school_identification_information() -> List[str]:
     'uk_school_identification_information.csv' does not exist. 
     It scrapes the gov.uk website to obtain and return a pd.DataFrame 
     containing the name and Unique Identification Number (URN) for every
-    school in the UK. 
+    school in the UK.
 
     Returns
     -------

@@ -67,6 +67,11 @@ class TestDataAcquisition:
         when the file 'uk_parliamentary_constituencies.txt' does not exist
           creates the correct file: 'uk_parliamentary_constituencies.txt'.
 
+    test_scrape_parliamentary_constituents_file_does_not_exist_creates_correct_file()
+        Tests that calling the function 'scrape_parliamentary_constituents' 
+        when the file 'uk_parliamentary_constituencies.txt' does not exist
+          creates the correct file: 'uk_parliamentary_constituencies.txt'.
+
     test_scrape_parliamentary_constituencies_correct_return()
         Tests that the list returned by the function 
         'scrape_parliamentary_constituencies()' is correct.
