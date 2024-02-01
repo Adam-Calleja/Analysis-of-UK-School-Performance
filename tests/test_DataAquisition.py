@@ -76,6 +76,34 @@ class TestDataAcquisition:
         Tests that the list returned by the function 
         'scrape_parliamentary_constituencies()' is correct.
 
+    TODO: test_read_school_identification_information_correct_return()
+        Tests that the pd.DataFrame returned by the function
+        'read_school_identification_information()' is correct.
+
+    TODO: test_get_school_identification_information_file_exists_correct_return()
+        Tests that the pd.DataFrame returned by the function
+        'get_school_identification_information()' is correct when the 
+        file 'uk_school_identification_information.csv' exists.
+
+    TODO: test_get_school_identification_information_file_does_not_exist_correct_return()
+        Tests that the pd.DataFrame returned by the function
+        'get_school_identification_information()' is correct when the 
+        file 'uk_school_identification_information.csv' does not exist.
+
+    TODO: test_get_school_identification_information_file_does_not_exist_creates_correct_file()
+        Tests that calling the function 'get_school_identification_information()'
+        when the file 'uk_school_identification_information.csv' does not exist
+        creates the correct file: 'uk_school_identification_information.csv'.
+
+    TODO: test_scrape_school_identification_information_file_does_not_exist_creates_correct_file()
+        Tests that calling the function 'scrape_school_identification_information()'
+        when the file 'uk_school_identification_information.csv' does not exist
+        creates the correct file: 'uk_school_identification_information.csv'.
+
+    TODO: test_scrape_school_identification_information_correct_return()
+        Tests that the pd.DataFrame returned by the function
+        'scrape_school_identification_information()' is correct.
+
     """
 
     @pytest.fixture
@@ -149,6 +177,21 @@ class TestDataAcquisition:
 
         # Assert
         assert parliamentary_constituent_list == EXPECTED_PARLIAMENTARY_CONSTITUENT_LIST, "get_parliamentary_constituencies() did not return correct list"
+
+    def test_get_parliamentary_constituencies_file_does_not_exist_creates_correct_file(temp_data_directory):
+        """
+        Tests that calling the function 'get_parliamentary_constituencies' 
+        when the file 'uk_parliamentary_constituencies.txt' does not exist
+        creates the correct file: 'uk_parliamentary_constituencies.txt'.
+        """
+
+        # Arrange
+
+        # Act 
+        DataAquisition.get_parliamentary_constituencies()
+
+        # Assert
+        assert os.path.exists("data/uk_parliamentary_constituencies.txt") == True, "get_parliamentary_constituencies() did not create the file 'uk_parliamentary_constituencies.txt"
         
     def test_scrape_parliamentary_constituencies_file_does_not_exist_creates_correct_file(self, temp_data_directory):
         """
@@ -163,7 +206,7 @@ class TestDataAcquisition:
         DataAquisition.scrape_parliamentary_constituencies()
 
         # Assert
-        assert os.path.exists("data/uk_parliamentary_constituencies.txt") == True
+        assert os.path.exists("data/uk_parliamentary_constituencies.txt") == True, "scrape_parliamentary_constituencies() did not create the file 'uk_parliamentary_constituencies.txt"
 
     def test_scrape_parliamentary_constituencies_correct_return(self, temp_data_directory):
         """
