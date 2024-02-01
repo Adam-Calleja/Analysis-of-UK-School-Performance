@@ -113,7 +113,7 @@ def read_school_identification_information() -> pd.DataFrame:
 
     return None
 
-def scrape_school_identification_information() -> List[str]:
+def scrape_school_identification_information() -> pd.DataFrame:
     """
     Returns a pd.DataFrame containing the name and URN of all UK schools. 
 
@@ -121,7 +121,8 @@ def scrape_school_identification_information() -> List[str]:
     'uk_school_identification_information.csv' does not exist. 
     It scrapes the gov.uk website to obtain and return a pd.DataFrame 
     containing the name and Unique Identification Number (URN) for every
-    school in the UK.
+    school in the UK. It then saves this pd.DataFrame in the file 
+    'uk_school_identification_information.csv'.
 
     Returns
     -------
@@ -129,7 +130,7 @@ def scrape_school_identification_information() -> List[str]:
         A pd.DataFrame containing the name and URN of every UK school.
     """
 
-def get_school_identification_information() -> List[str]:
+def get_school_identification_information() -> pd.DataFrame:
     """
     Returns a pd.DataFrame containing the name and URN of all UK schools. 
 
