@@ -70,7 +70,7 @@ class TestDataAcquisition:
     test_scrape_parliamentary_constituents_file_does_not_exist_creates_correct_file()
         Tests that calling the function 'scrape_parliamentary_constituents' 
         when the file 'uk_parliamentary_constituencies.txt' does not exist
-          creates the correct file: 'uk_parliamentary_constituencies.txt'.
+        creates the correct file: 'uk_parliamentary_constituencies.txt'.
 
     test_scrape_parliamentary_constituencies_correct_return()
         Tests that the list returned by the function 
@@ -150,3 +150,17 @@ class TestDataAcquisition:
         # Assert
         assert parliamentary_constituent_list == EXPECTED_PARLIAMENTARY_CONSTITUENT_LIST, "get_parliamentary_constituents() did not return correct list"
         
+    def test_scrape_parliamentary_constituents_file_does_not_exist_creates_correct_file(self, temp_data_directory):
+        """
+        Tests that calling the function 'scrape_parliamentary_constituents' 
+        when the file 'uk_parliamentary_constituencies.txt' does not exist
+        creates the correct file: 'uk_parliamentary_constituencies.txt'.
+        """
+
+        # Arrange
+
+        # Act 
+        DataAquisition.scrape_parliamentary_constituencies()
+
+        # Assert
+        assert os.path.exists("data/uk_parliamentary_constituents.txt") == True
