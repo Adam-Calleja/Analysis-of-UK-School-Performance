@@ -48,27 +48,27 @@ class TestDataAcquisition:
     
     Methods
     -------
-    test_read_parliamentary_constituents_correct_return()
+    test_read_parliamentary_constituencies_correct_return()
         Tests that the list returned by the function 
-        'read_parliamentary_constituents()' is correct. 
+        'read_parliamentary_constituencies()' is correct. 
 
     test_get_parliamentary_constituencies_file_exists_correct_return()
         Tests that the list returned by the function 
-        'get_parliamentary_constituents' is correct when the file 
+        'get_parliamentary_constituencies' is correct when the file 
         'uk_parliamentary_constituencies.txt' exists.
 
     test_get_parliamentary_constituencies_file_does_not_exist_correct_return()
         Tests that the list returned by the function 
-        'get_parliamentary_constituents' is correct when the file 
+        'get_parliamentary_constituencies' is correct when the file 
         'uk_parliamentary_constituencies.txt' does not exist.
 
-    test_get_parliamentary_constituents_file_does_not_exist_creates_correct_file()
-        Tests that calling the function 'get_parliamentary_constituents' 
+    test_get_parliamentary_constituencies_file_does_not_exist_creates_correct_file()
+        Tests that calling the function 'get_parliamentary_constituencies' 
         when the file 'uk_parliamentary_constituencies.txt' does not exist
-          creates the correct file: 'uk_parliamentary_constituencies.txt'.
+        creates the correct file: 'uk_parliamentary_constituencies.txt'.
 
-    test_scrape_parliamentary_constituents_file_does_not_exist_creates_correct_file()
-        Tests that calling the function 'scrape_parliamentary_constituents' 
+    test_scrape_parliamentary_constituencies_file_does_not_exist_creates_correct_file()
+        Tests that calling the function 'scrape_parliamentary_constituencies' 
         when the file 'uk_parliamentary_constituencies.txt' does not exist
         creates the correct file: 'uk_parliamentary_constituencies.txt'.
 
@@ -94,10 +94,10 @@ class TestDataAcquisition:
 
         shutil.rmtree(data_directory)
 
-    def test_read_parliamentary_constituents_correct_return(self):
+    def test_read_parliamentary_constituencies_correct_return(self):
         """
         Tests that the list returned by the function 
-        'read_parliamentary_constituents()' is correct. 
+        'read_parliamentary_constituencies()' is correct. 
 
         This list should contain all of the parliamentary constituencies 
         given in the documentation for this test class. 
@@ -109,7 +109,7 @@ class TestDataAcquisition:
         parliamentary_constituent_list = DataAquisition.read_parliamentary_constituencies()
 
         # Assert
-        assert parliamentary_constituent_list == EXPECTED_PARLIAMENTARY_CONSTITUENT_LIST, "read_parliamentary_constituents() did not return correct list"
+        assert parliamentary_constituent_list == EXPECTED_PARLIAMENTARY_CONSTITUENT_LIST, "read_parliamentary_constituencies() did not return correct list"
 
     def test_get_parliamentary_constituencies_file_exists_correct_return(self, temp_data_directory):
         """
@@ -122,15 +122,15 @@ class TestDataAcquisition:
         """
             
         # Arrange
-        permanent_mock_data_file = Path.cwd() / "test_data" / "uk_parliamentary_constituents_test.txt"
-        temporary_mock_data_file = temp_data_directory / "uk_parliamentary_constituents.txt"
+        permanent_mock_data_file = Path.cwd() / "test_data" / "uk_parliamentary_constituencies_test.txt"
+        temporary_mock_data_file = temp_data_directory / "uk_parliamentary_constituencies.txt"
         shutil.copy(permanent_mock_data_file, temporary_mock_data_file)
 
         # Act
         parliamentary_constituent_list = DataAquisition.get_parliamentary_constituencies()
 
         # Assert
-        assert parliamentary_constituent_list == EXPECTED_PARLIAMENTARY_CONSTITUENT_LIST, "get_parliamentary_constituents() did not return correct list"
+        assert parliamentary_constituent_list == EXPECTED_PARLIAMENTARY_CONSTITUENT_LIST, "get_parliamentary_constituencies() did not return correct list"
 
     def test_get_parliamentary_constituencies_file_does_not_exist_correct_return(self, temp_data_directory):
         """
@@ -148,11 +148,11 @@ class TestDataAcquisition:
         parliamentary_constituent_list = DataAquisition.get_parliamentary_constituencies()
 
         # Assert
-        assert parliamentary_constituent_list == EXPECTED_PARLIAMENTARY_CONSTITUENT_LIST, "get_parliamentary_constituents() did not return correct list"
+        assert parliamentary_constituent_list == EXPECTED_PARLIAMENTARY_CONSTITUENT_LIST, "get_parliamentary_constituencies() did not return correct list"
         
-    def test_scrape_parliamentary_constituents_file_does_not_exist_creates_correct_file(self, temp_data_directory):
+    def test_scrape_parliamentary_constituencies_file_does_not_exist_creates_correct_file(self, temp_data_directory):
         """
-        Tests that calling the function 'scrape_parliamentary_constituents' 
+        Tests that calling the function 'scrape_parliamentary_constituencies' 
         when the file 'uk_parliamentary_constituencies.txt' does not exist
         creates the correct file: 'uk_parliamentary_constituencies.txt'.
         """
@@ -163,4 +163,21 @@ class TestDataAcquisition:
         DataAquisition.scrape_parliamentary_constituencies()
 
         # Assert
-        assert os.path.exists("data/uk_parliamentary_constituents.txt") == True
+        assert os.path.exists("data/uk_parliamentary_constituencies.txt") == True
+
+    def test_scrape_parliamentary_constituencies_correct_return(self, temp_data_directory):
+        """
+        Tests that the list returned by the function 
+        'scrape_parliamentary_constituencies()' is correct.
+
+        This list should contain all of the parliamentary constituencies 
+        given in the documentation for this test class.
+        """
+
+        # Arrange 
+
+        # Act
+        parliamentary_constituent_list = DataAquisition.scrape_parliamentary_constituencies()
+
+        # Assert
+        assert parliamentary_constituent_list == EXPECTED_PARLIAMENTARY_CONSTITUENT_LIST, "scrape_parliamentary_constituencies() did not return correct list"
