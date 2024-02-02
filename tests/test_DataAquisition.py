@@ -6,6 +6,7 @@ import pytest
 import shutil
 from pathlib import Path
 import os
+import pandas as pd
 
 import DataAquisition
 from typing import List
@@ -45,6 +46,19 @@ class TestDataAcquisition:
     - East Antrim
     - Fermanagh and South Tyrone
     - Foyle 
+
+    When testing the functions related to obtaining school-specific 
+    information, the mock data will only contain schools in Aldershot.
+    As a result, the mock data will only contain the following 9 schools:
+    - The Wavell School 
+    - Cove School 
+    - Alderwood School
+    - Samuel Cody School
+    - Fernhill School (Maintained school)
+    - Fernhill School (Academy)
+    - Salesian College
+    - Henry Tyndale School
+    - Farnborough Hill
     
     Methods
     -------
@@ -76,7 +90,7 @@ class TestDataAcquisition:
         Tests that the list returned by the function 
         'scrape_parliamentary_constituencies()' is correct.
 
-    TODO: test_read_school_identification_information_correct_return()
+    test_read_school_identification_information_correct_return()
         Tests that the pd.DataFrame returned by the function
         'read_school_identification_information()' is correct.
 
@@ -122,7 +136,7 @@ class TestDataAcquisition:
 
         shutil.rmtree(data_directory)
 
-    def test_read_parliamentary_constituencies_correct_return(self):
+    def test_read_parliamentary_constituencies_correct_return(self, temp_data_directory):
         """
         Tests that the list returned by the function 
         'read_parliamentary_constituencies()' is correct. 
@@ -132,6 +146,9 @@ class TestDataAcquisition:
         """
 
         # Arrange
+        permanent_mock_data_file = Path.cwd() / "test_data" / "uk_parliamentary_constituencies_test.txt"
+        temporary_mock_data_file = temp_data_directory / "uk_parliamentary_constituencies.txt"
+        shutil.copy(permanent_mock_data_file, temporary_mock_data_file)
 
         # Act
         parliamentary_constituent_list = DataAquisition.read_parliamentary_constituencies()
@@ -224,3 +241,25 @@ class TestDataAcquisition:
 
         # Assert
         assert parliamentary_constituent_list == EXPECTED_PARLIAMENTARY_CONSTITUENT_LIST, "scrape_parliamentary_constituencies() did not return correct list"
+
+    def test_read_school_identification_information_correct_return(self, temp_data_directory):
+        """
+        Tests that the pd.DataFrame returned by the function
+        'read_school_identification_information()' is correct.
+
+        This pd.DataFrame should contain all of the schools in Aldershot, 
+        as described in the documentation for this test class.
+        """
+
+        # Arrange
+        permanent_mock_data_file = Path.cwd() / "test_data" / "uk_school_identification_information_test.csv"
+        temporary_mock_data_file = temp_data_directory / "uk_school_identification_information.csv"
+        shutil.copy(permanent_mock_data_file, temporary_mock_data_file)
+
+        uk_school_identification_information_mock_dataframe = pd.read_csv('data/uk_school_identification_information.csv', index_col=0)
+
+        # Act
+        school_identification_information_dataframe = DataAquisition.read_school_identification_information()
+
+        # Assert
+        pd.testing.assert_frame_equal(school_identification_information_dataframe, uk_school_identification_information_mock_dataframe)
