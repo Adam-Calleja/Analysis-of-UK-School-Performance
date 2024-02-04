@@ -104,7 +104,7 @@ class TestDataAcquisition:
         'get_school_identification_information()' is correct when the 
         file 'uk_school_identification_information.csv' does not exist.
 
-    TODO: test_get_school_identification_information_file_does_not_exist_creates_correct_file()
+    test_get_school_identification_information_file_does_not_exist_creates_correct_file()
         Tests that calling the function 'get_school_identification_information()'
         when the file 'uk_school_identification_information.csv' does not exist
         creates the correct file: 'uk_school_identification_information.csv'.
@@ -321,3 +321,18 @@ class TestDataAcquisition:
 
         # Assert
         assert os.path.exists("data/uk_school_identification_information.csv") == True, "get_school_identification_information() did not create the file 'uk_school_identification_information.csv"
+
+    def test_scrape_school_identification_information_file_does_not_exist_creates_correct_file(self, temp_data_directory):
+        """
+        Tests that calling the function 'scrape_school_identification_information()'
+        when the file 'uk_school_identification_information.csv' does not exist
+        creates the correct file: 'uk_school_identification_information.csv'.
+        """
+
+        # Arrange
+
+        # Act 
+        school_identification_information_dataframe = DataAquisition.scrape_school_identification_information()
+
+        # Assert
+        assert os.path.exists("data/uk_school_identification_information.csv") == True, "scrape_school_identification_information() did not create the file 'uk_school_identification_information.csv"
