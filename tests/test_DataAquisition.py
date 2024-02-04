@@ -109,7 +109,7 @@ class TestDataAcquisition:
         when the file 'uk_school_identification_information.csv' does not exist
         creates the correct file: 'uk_school_identification_information.csv'.
 
-    TODO: test_scrape_school_identification_information_file_does_not_exist_creates_correct_file()
+    test_scrape_school_identification_information_file_does_not_exist_creates_correct_file()
         Tests that calling the function 'scrape_school_identification_information()'
         when the file 'uk_school_identification_information.csv' does not exist
         creates the correct file: 'uk_school_identification_information.csv'.
@@ -336,3 +336,22 @@ class TestDataAcquisition:
 
         # Assert
         assert os.path.exists("data/uk_school_identification_information.csv") == True, "scrape_school_identification_information() did not create the file 'uk_school_identification_information.csv"
+
+    def test_scrape_school_identification_information_correct_return(self, temp_data_directory):
+        """
+        Tests that the pd.DataFrame returned by the function
+        'scrape_school_identification_information()' is correct.
+
+        This pd.DataFrame should contain all of the schools in Aldershot, 
+        as described in the documentation for this test class.
+        """
+
+        # Arrange
+        permanent_mock_data_file = Path.cwd() / "test_data" / "uk_school_identification_information_test.csv"
+        uk_school_identification_information_mock_dataframe = pd.read_csv(permanent_mock_data_file, index_col=0)
+
+        # Act
+        school_identification_information_dataframe = DataAquisition.scrape_school_identification_information()
+
+        # Assert
+        pd.testing.assert_frame_equal(school_identification_information_dataframe, uk_school_identification_information_mock_dataframe)
