@@ -99,7 +99,7 @@ class TestDataAcquisition:
         'get_school_identification_information()' is correct when the 
         file 'uk_school_identification_information.csv' exists.
 
-    TODO: test_get_school_identification_information_file_does_not_exist_correct_return()
+    test_get_school_identification_information_file_does_not_exist_correct_return()
         Tests that the pd.DataFrame returned by the function
         'get_school_identification_information()' is correct when the 
         file 'uk_school_identification_information.csv' does not exist.
@@ -306,3 +306,18 @@ class TestDataAcquisition:
 
         # Assert
         pd.testing.assert_frame_equal(school_identification_information_dataframe, uk_school_identification_information_mock_dataframe)
+
+    def test_get_school_identification_information_file_does_not_exist_creates_correct_file(self, temp_data_directory):
+        """
+        Tests that calling the function 'get_school_identification_information()'
+        when the file 'uk_school_identification_information.csv' does not exist
+        creates the correct file: 'uk_school_identification_information.csv'.
+        """
+
+        # Arrange
+
+        # Act 
+        school_identification_information_dataframe = DataAquisition.get_school_identification_information()
+
+        # Assert
+        assert os.path.exists("data/uk_school_identification_information.csv") == True, "get_school_identification_information() did not create the file 'uk_school_identification_information.csv"
