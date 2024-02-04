@@ -263,3 +263,26 @@ class TestDataAcquisition:
 
         # Assert
         pd.testing.assert_frame_equal(school_identification_information_dataframe, uk_school_identification_information_mock_dataframe)
+
+    def test_get_school_identification_information_file_exists_correct_return(self, temp_data_directory):
+        """
+        Tests that the pd.DataFrame returned by the function
+        'get_school_identification_information()' is correct when the 
+        file 'uk_school_identification_information.csv' exists.
+
+        This pd.DataFrame should contain all of the schools in Aldershot, 
+        as described in the documentation for this test class.
+        """
+
+        # Arrange
+        permanent_mock_data_file = Path.cwd() / "test_data" / "uk_school_identification_information_test.csv"
+        temporary_mock_data_file = temp_data_directory / "uk_school_identification_information.csv"
+        shutil.copy(permanent_mock_data_file, temporary_mock_data_file)
+
+        uk_school_identification_information_mock_dataframe = pd.read_csv('data/uk_school_identification_information.csv', index_col=0)
+
+        # Act
+        school_identification_information_dataframe = DataAquisition.get_school_identification_information()
+
+        # Assert
+        pd.testing.assert_frame_equal(school_identification_information_dataframe, uk_school_identification_information_mock_dataframe)
