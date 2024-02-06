@@ -1,19 +1,43 @@
 """
 Scrapes the data required for my Analysis of UK School Performance project
 
-Aquires the data specified by the data_rows parameter for each school in
-the UK. Creates the file 'uk_school_data.csv'. Asks the user if the 
-program should continue and rewrite the file if the file already exists.
-The file 'uk_school_data.csv' contains the columns: 'school_name', 
-'school_urn', 'parliamentary_constituency' as well as any columns 
-specified by the data_rows parameter.
+Aquires the following data for all primary schools in the UK:
+    - school name
+    - school unique reference number (URN)
+    - parliamentary_constituency
+    - reading band
+    - reading progress score
+    - reading progress score confidence interval
+    - writing band
+    - writing progress score
+    - writing progress score confidence interval
+    - maths band
+    - maths progress score
+    - maths progress score confidence interval
+    - percentage of pupils meeting the expected standard in reading, writing and maths (school)
+    - percentage of pupils meeting the expected standard in reading, writing and maths (local authority average)
+    - percentage of pupils meeting the expected standard in reading, writing and maths (england average)
+    - percentage of pupils achieving at a higher standard in reading, writing and maths (school)
+    - percentage of pupils achieving at a higher standard in reading, writing and maths (local authority average)
+    - percentage of pupils achieving at a higher standard in reading, writing and maths (england average)
+    - average score in reading (school)
+    - average score in reading (local authority average)
+    - average score in reading (england average)
+    - average score in maths (school)
+    - average score in maths (local authority average)
+    - average score in maths (england average)
+
+Creates the file 'uk_primary_school_data.csv'. If the file already exists,
+it will output a message saying that the file already exists before 
+rewriting the file. 
+
+TODO: Take into account additional measures
+TODO: Take into account results by pupil characteristics 
 
 Parameters
 ----------
 user_agent : str
     The user agent to be used when making html requests.
-data_rows : List[str]
-    A list of the data rows to be aquired for each school. 
 
 Notes
 -----
@@ -149,14 +173,31 @@ def get_school_identification_information() -> pd.DataFrame:
 
     return None
 
-def get_single_school_data(school_name, school_urn, data_rows) -> pd.DataFrame:
+def get_soup(url) -> BeautifulSoup:
     """
-    Returns a pd.DataFrame containing the data required for the school.
+    Returns a BeautifulSoup object representing 
+    the parsed webpage that was specified. 
 
-    Scrapes the gov.uk website to obtain the required information for the
-    school specified. Returns this information as a pd.DataFrame with 
-    columns for the school's name, Unique Identification Number (URN) and
-    parliamentary constituency as well as the required information.
+    Parameters
+    ----------
+    url : str
+        The url of the website which is to be parsed. 
+
+    Returns
+    ------
+    soup : BeautifulSoup
+        The BeautifulSoup object representing the webpage to be parsed.
+    """
+    
+    return None
+
+def get_single_school_primary_url(school_name, school_urn) -> str:
+    """
+    Returns the URL to the school's primary page
+
+    Returns the URL to the Web page containing the school's primary 
+    results data. At the time of writing, this data is for pupils who
+    completed key stage 2 in the summer of 2023.
 
     Parameters
     ----------
@@ -165,8 +206,107 @@ def get_single_school_data(school_name, school_urn, data_rows) -> pd.DataFrame:
     school_urn : str
         The Unique Identification Number (URN) of the school whose data
         is to be obtained.
-    data_rows : List[str]
-        A list of the data rows to be aquired for the school.
+
+    Returns
+    -------
+    school_primary_url : str
+        The url to the Web page containing the school's primary results 
+        data. 
+    """
+
+def get_single_school_primary_data(school_name, school_urn) -> pd.DataFrame:
+    """
+    Returns the results data for a given school
+
+    Scrapes the gov.uk website to obtain the required primary results data
+    for the specified school. Returns a pd.DataFrame containing the 
+    primary results data for the school.  At the time of writing, this 
+    data is for pupils who completed key stage 2 in the summer of 2023.
+
+    Parameters
+    ----------
+    school_name : str
+        The name of the school whose data is to be obtained. 
+    school_urn : str
+        The Unique Identification Number (URN) of the school whose data
+        is to be obtained.
+
+    Returns
+    -------
+    school_primary_data : pd.DataFrame
+        A pd.DataFrame containing the primary results data for the given 
+        school. 
+    """
+
+    return None
+
+def get_single_school_absence_and_pupil_url(school_name, school_urn) -> str:
+    """
+    Returns the URL to the school's absence page
+
+    Returns the URL to the Web page containing the school's absence and 
+    pupil population information. At the time of writing, this data is 
+    for the 2021/2022 school year.
+
+    Parameters
+    ----------
+    school_name : str
+        The name of the school whose data is to be obtained. 
+    school_urn : str
+        The Unique Identification Number (URN) of the school whose data
+        is to be obtained.
+
+    Returns
+    -------
+    school_primary_absence_and_pupil_url : str
+        The url to the Web page containing the school's absence and 
+        pupil population information.
+    """
+
+
+def get_single_school_absence_and_pupil_data(school_name, school_urn) -> pd.DataFrame: 
+    """
+    Returns the population data for the school
+
+    Scrapes the gov.uk website to obtain the required absence and pupil
+    population information for the specified school. Returns a 
+    pd.DataFrame containing the school's absence and pupil population 
+    information. At the time of writing, this data is for the 
+    2021/2022 school year.
+
+    Parameters
+    ----------
+    school_name : str
+        The name of the school whose data is to be obtained. 
+    school_urn : str
+        The Unique Identification Number (URN) of the school whose data
+        is to be obtained.
+
+    Returns
+    -------
+    school_absence_and_pupil_data : pd.DataFrame
+        A pd.DataFrame containing the school's absence and pupil 
+        population information.
+    """
+
+    return None
+
+def get_single_school_data(school_name, school_urn) -> pd.DataFrame:
+    """
+    Returns a pd.DataFrame containing the data required for the school.
+
+    Scrapes the gov.uk website to obtain the required information for the
+    school specified. Returns this information as a pd.DataFrame with 
+    columns for all the data specified in the documentation for this
+    class.
+
+    Parameters
+    ----------
+    school_name : str
+        The name of the school whose data is to be obtained. 
+    school_urn : str
+        The Unique Identification Number (URN) of the school whose data
+        is to be obtained.
 
     Returns
     -------
@@ -176,7 +316,7 @@ def get_single_school_data(school_name, school_urn, data_rows) -> pd.DataFrame:
 
     return None
 
-def get_all_school_data(data_rows) -> pd.DataFrame:
+def get_all_school_data() -> pd.DataFrame:
     """
     Returns a pd.DataFrame containing the required data for all UK schools
 
@@ -184,14 +324,8 @@ def get_all_school_data(data_rows) -> pd.DataFrame:
     by 'get_school_identification_information()' concatenating the 
     pd.DataFrame returned to obtain a single pd.DataFrame containing the
     information required for all schools in the UK. This DataFrame
-    contains columns for the school's name, Unique Identification Number 
-    (URN) and parliamentary consitituency as well as the required
-    information.
-
-    Parameters
-    ----------
-    data_rows : List[str]
-        A list of the data rows to be aquired for the schools.
+    contains the information described in the documentation for this 
+    class.
 
     Returns
     -------
