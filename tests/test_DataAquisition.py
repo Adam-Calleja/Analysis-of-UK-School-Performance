@@ -48,21 +48,43 @@ class TestDataAcquisition:
     - Foyle 
 
     When testing the functions related to obtaining school-specific 
-    information, the mock data will only contain schools in Aldershot.
-    As a result, the mock data will only contain the following 9 schools:
-    - The Wavell School 
-    - Cove School 
-    - Alderwood School
-    - Samuel Cody School
-    - Fernhill School (Maintained school)
-    - Fernhill School (Academy)
-    - Salesian College
-    - Henry Tyndale School
-    - Farnborough Hill
+    information, the mock data will only contain primary schools in
+    Aldridge-Brownhills. As a result, the mock data will only contain the 
+    following 30 schools:
+    - St Anne's Catholic Primary School, Streetly
+    - Manor Primary School
+    - St Michael's Church of England C Primary School
+    - St Mary of the Angels Catholic Primary School
+    - Walsall Wood School
+    - Ryders Hayes School
+    - St Francis Catholic Primary School
+    - Whetstone Field Primary School
+    - Blackwood School
+    - Castlefort Junior Mixed and Infant School
+    - Holy Trinity Church of England Primary School
+    - St John's Church of England Primary School
+    - Watling Street Primary School
+    - Cooper and Jordan Church of England Primary School
+    - St Bernadette's Catholic Primary School
+    - Millfield Primary School
+    - Radleys Primary School
+    - Lindens Primary School
+    - St James Primary School
+    - Pelsall Village School
+    - Greenfield Primary School
+    - Leighswood School
+    - Brownhills West Primary School
+    - Rushall Primary School
+    - Oakwood School
+    - Blackwood School
+    - Brownhills West Primary School
+    - Greenfield Primary School
+    - St Bernadette's Catholic Primary School
+    - Walsall Wood School
 
     When testing the functions related to obtaining information for a 
     single school only, the mock data will only contain information
-    for 'The Wavell School'.
+    for 'St Anne's Catholic Primary School, Streetly'.
     
     Methods
     -------
@@ -92,7 +114,7 @@ class TestDataAcquisition:
 
     test_get_soup_correct_return()
 
-    TODO: test_get_single_school_primary_url_correct_return()
+    test_get_single_school_primary_url_correct_return()
 
     TODO: test_get_single_school_primary_data_correct_return()
 
@@ -255,7 +277,7 @@ class TestDataAcquisition:
         Tests that the pd.DataFrame returned by the function
         'read_school_identification_information()' is correct.
 
-        This pd.DataFrame should contain all of the schools in Aldershot, 
+        This pd.DataFrame should contain all of the schools in Aldridge-Brownhills, 
         as described in the documentation for this test class.
         """
 
@@ -278,7 +300,7 @@ class TestDataAcquisition:
         'get_school_identification_information()' is correct when the 
         file 'uk_school_identification_information.csv' exists.
 
-        This pd.DataFrame should contain all of the schools in Aldershot, 
+        This pd.DataFrame should contain all of the schools in Aldridge-Brownhills, 
         as described in the documentation for this test class.
         """
 
@@ -301,7 +323,7 @@ class TestDataAcquisition:
         'get_school_identification_information()' is correct when the 
         file 'uk_school_identification_information.csv' does not exist.
 
-        This pd.DataFrame should contain all of the schools in Aldershot, 
+        This pd.DataFrame should contain all of the schools in Aldridge-Brownhills, 
         as described in the documentation for this test class.
         """
 
@@ -350,7 +372,7 @@ class TestDataAcquisition:
         Tests that the pd.DataFrame returned by the function
         'scrape_school_identification_information()' is correct.
 
-        This pd.DataFrame should contain all of the schools in Aldershot, 
+        This pd.DataFrame should contain all of the schools in Aldridge-Brownhills, 
         as described in the documentation for this test class.
         """
 
@@ -384,3 +406,20 @@ class TestDataAcquisition:
 
         # Assert
         assert soup.find("p").text == "Mock Content", "get_soup() did not return the correct BeautifulSoup object."
+
+    def test_get_single_school_primary_url_correct_return(self):
+        """
+        Tests that 'get_single_school_primary_url' returns the corerct url
+
+        Tests the function 'get_single_school_primary_url' for the 
+        school 'St Anne's Catholic Primary School, Streetly' which has the
+        URN '104241'
+        """
+
+        # Arrange
+
+        # Act 
+        primary_url = DataAquisition.get_single_school_primary_url("St Anne's Catholic Primary School, Streetly", "104241")
+
+        # Assert
+        assert primary_url == "https://www.compare-school-performance.service.gov.uk/school/104241/st-anne's-catholic-primary-school%2c-streetly", "get_single_school_primary_url() did not return the correct URL."
