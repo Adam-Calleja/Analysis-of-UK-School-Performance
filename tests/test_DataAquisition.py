@@ -59,64 +59,50 @@ class TestDataAcquisition:
     - Salesian College
     - Henry Tyndale School
     - Farnborough Hill
+
+    When testing the functions related to obtaining information for a 
+    single school only, the mock data will only contain information
+    for 'The Wavell School'.
     
     Methods
     -------
     test_read_parliamentary_constituencies_correct_return()
-        Tests that the list returned by the function 
-        'read_parliamentary_constituencies()' is correct. 
 
     test_get_parliamentary_constituencies_file_exists_correct_return()
-        Tests that the list returned by the function 
-        'get_parliamentary_constituencies' is correct when the file 
-        'uk_parliamentary_constituencies.txt' exists.
 
     test_get_parliamentary_constituencies_file_does_not_exist_correct_return()
-        Tests that the list returned by the function 
-        'get_parliamentary_constituencies' is correct when the file 
-        'uk_parliamentary_constituencies.txt' does not exist.
 
     test_get_parliamentary_constituencies_file_does_not_exist_creates_correct_file()
-        Tests that calling the function 'get_parliamentary_constituencies' 
-        when the file 'uk_parliamentary_constituencies.txt' does not exist
-        creates the correct file: 'uk_parliamentary_constituencies.txt'.
 
     test_scrape_parliamentary_constituencies_file_does_not_exist_creates_correct_file()
-        Tests that calling the function 'scrape_parliamentary_constituencies' 
-        when the file 'uk_parliamentary_constituencies.txt' does not exist
-        creates the correct file: 'uk_parliamentary_constituencies.txt'.
 
     test_scrape_parliamentary_constituencies_correct_return()
-        Tests that the list returned by the function 
-        'scrape_parliamentary_constituencies()' is correct.
 
     test_read_school_identification_information_correct_return()
-        Tests that the pd.DataFrame returned by the function
-        'read_school_identification_information()' is correct.
 
     test_get_school_identification_information_file_exists_correct_return()
-        Tests that the pd.DataFrame returned by the function
-        'get_school_identification_information()' is correct when the 
-        file 'uk_school_identification_information.csv' exists.
 
     test_get_school_identification_information_file_does_not_exist_correct_return()
-        Tests that the pd.DataFrame returned by the function
-        'get_school_identification_information()' is correct when the 
-        file 'uk_school_identification_information.csv' does not exist.
 
     test_get_school_identification_information_file_does_not_exist_creates_correct_file()
-        Tests that calling the function 'get_school_identification_information()'
-        when the file 'uk_school_identification_information.csv' does not exist
-        creates the correct file: 'uk_school_identification_information.csv'.
 
     test_scrape_school_identification_information_file_does_not_exist_creates_correct_file()
-        Tests that calling the function 'scrape_school_identification_information()'
-        when the file 'uk_school_identification_information.csv' does not exist
-        creates the correct file: 'uk_school_identification_information.csv'.
 
-    TODO: test_scrape_school_identification_information_correct_return()
-        Tests that the pd.DataFrame returned by the function
-        'scrape_school_identification_information()' is correct.
+    test_scrape_school_identification_information_correct_return()
+
+    test_get_soup_correct_return()
+
+    TODO: test_get_single_school_primary_url_correct_return()
+
+    TODO: test_get_single_school_primary_data_correct_return()
+
+    TODO: test_get_single_school_absence_and_pupil_url_correct_return()
+
+    TODO: test_get_single_school_absence_and_pupil_data_correct_return()
+
+    TODO: test_get_single_school_data_correct_return()
+
+    TODO: test_get_all_school_data_correct_return()
 
     """
 
@@ -135,6 +121,28 @@ class TestDataAcquisition:
         yield data_directory
 
         shutil.rmtree(data_directory)
+
+    @pytest.fixture
+    def mock_requests_get(monkeypatch):
+        """
+        Mocks the 'requests.get()' function
+        """
+        def mock_get(url):
+            """
+            Returns a mocked response object with HTML content
+            """
+            class MockResponse:
+                def __init__(self, content):
+                    self.content = content
+
+                def text(self):
+                    return self.content
+                
+            mock_html_content = "<html><body><p>Mock Content</p></body></html>"
+            return MockResponse(mock_html_content)
+        
+        monkeypatch.__setattr__('requests.get', mock_get)
+
 
     def test_read_parliamentary_constituencies_correct_return(self, temp_data_directory):
         """
@@ -355,3 +363,24 @@ class TestDataAcquisition:
 
         # Assert
         pd.testing.assert_frame_equal(school_identification_information_dataframe, uk_school_identification_information_mock_dataframe)
+
+    def test_get_soup_correct_return(self, mock_requests_get):
+        """
+        Tests that 'get_soup' returns the correct BeautifulSoup object
+
+        Calls 'get_soup' with a dummy URL to obtain the returned 
+        BeautifulSoup object. Verifies that the correct BeautifulSoup 
+        object is returned by checking if it contains the expected 
+        content. In this case, we will check whether it contains a '<p>' 
+        tag with the text 'Mock Content' since this is the HTML content
+        returned by the 'mock_requests_get' fixture. 
+        """
+
+        # Arrange
+        dummy_url = 'http://dummy.com'
+
+        # Act
+        soup = DataAquisition.get_soup(dummy_url)
+
+        # Assert
+        assert soup.find("p").text == "Mock Content", "get_soup() did not return the correct BeautifulSoup object."
