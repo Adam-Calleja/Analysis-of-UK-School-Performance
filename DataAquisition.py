@@ -173,7 +173,7 @@ def get_school_identification_information() -> pd.DataFrame:
 
     return None
 
-def get_soup(url) -> BeautifulSoup:
+def get_soup(url: str) -> BeautifulSoup:
     """
     Returns a BeautifulSoup object representing 
     the parsed webpage that was specified. 
@@ -191,7 +191,7 @@ def get_soup(url) -> BeautifulSoup:
     
     return None
 
-def get_single_school_primary_url(school_name, school_urn) -> str:
+def get_single_school_primary_url(school_name: str, school_urn: str) -> str:
     """
     Returns the URL to the school's primary page
 
@@ -214,7 +214,7 @@ def get_single_school_primary_url(school_name, school_urn) -> str:
         data. 
     """
 
-def get_single_school_primary_data(school_name, school_urn) -> pd.DataFrame:
+def get_single_school_primary_data(school_name: str, school_urn: str) -> pd.DataFrame:
     """
     Returns the results data for a given school
 
@@ -240,7 +240,7 @@ def get_single_school_primary_data(school_name, school_urn) -> pd.DataFrame:
 
     return None
 
-def get_single_school_absence_and_pupil_url(school_name, school_urn) -> str:
+def get_single_school_absence_and_pupil_url(school_name: str, school_urn: str) -> str:
     """
     Returns the URL to the school's absence page
 
@@ -264,7 +264,7 @@ def get_single_school_absence_and_pupil_url(school_name, school_urn) -> str:
     """
 
 
-def get_single_school_absence_and_pupil_data(school_name, school_urn) -> pd.DataFrame: 
+def get_single_school_absence_and_pupil_data(school_name: str, school_urn: str) -> pd.DataFrame: 
     """
     Returns the population data for the school
 
@@ -291,7 +291,7 @@ def get_single_school_absence_and_pupil_data(school_name, school_urn) -> pd.Data
 
     return None
 
-def get_single_school_data(school_name, school_urn) -> pd.DataFrame:
+def get_single_school_data(school_name: str, school_urn: str) -> pd.DataFrame:
     """
     Returns a pd.DataFrame containing the data required for the school.
 
