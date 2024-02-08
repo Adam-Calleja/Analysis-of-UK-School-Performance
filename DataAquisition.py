@@ -26,7 +26,28 @@ Aquires the following data for all primary schools in the UK:
     - average score in maths (school)
     - average score in maths (local authority average)
     - average score in maths (england average)
-
+    - overall absence (school)
+    - persistent absence (school)
+    - total number of pupils on roll (school)
+    - total number of pupils on roll (england - mainstream primary schools) 
+    - the percentage of girls (school)
+    - the percentage of girls (england - mainstream primary schools)
+    - the percentage of boys (school)
+    - the percentage of boys (england - mainstream primary schools)
+    - the percentage of pupils with SEN Education, Health and Care Plan (school)
+    - the percentage of pupills with SEN Education, Health and Care Plan (england - mainstream primary schools)
+    - the percentage of pupils with SEN Support (school)
+    - the percentage of pupils with SEN Support (england - mainstream primary schools)
+    - the percentage of EAL students (school)
+    - the percentage of EAL students (england - mainstream primary schools)
+    - the percentage of pupils eligible for free school means at any time during the past 6 years (school)
+    - the percentage of pupils eligible for free school means at any time during the past 6 years (england - mainstream primary schools)
+    
+At the time of writing the pupil absence data is from the academic year
+2021/2022. Due to the uneven impact of the pandemic on 2021/2022 
+school absence data, I will not make any comparisons with local and 
+national averages.
+    
 Creates the file 'uk_primary_school_data.csv'. If the file already exists,
 it will output a message saying that the file already exists before 
 rewriting the file. 
