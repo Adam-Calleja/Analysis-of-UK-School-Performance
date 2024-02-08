@@ -122,7 +122,7 @@ class TestDataAcquisition:
 
     test_get_single_school_absence_and_pupil_data_correct_return()
 
-    TODO: test_get_single_school_data_correct_return()
+    test_get_single_school_data_correct_return()
 
     TODO: test_get_all_school_data_correct_return()
 
@@ -490,3 +490,27 @@ class TestDataAcquisition:
 
         # Assert
         pd.testing.assert_frame_equal(school_absence_and_pupil_data, mock_school_absence_and_pupil_data)
+
+    def test_get_single_school_data_correct_return(self, temp_data_directory):
+        """
+        Tests 'get_single_school_data' returns the correct pd.DataFrame
+
+        Tests that the function 'get_single_school_data' 
+        returns the correct pd.DataFrame. This pd.DataFrame should contain 
+        the absence and pupil data as well as the primary results data for
+        the school 'St Anne's Catholic Primary School, Streetly'  which 
+        has the URN '104241'.
+        """
+
+        # Arrange
+        permanent_mock_data_file = Path.cwd() / "test_data" / "mock_get_single_school_data_test.csv"
+        temporary_mock_data_file = temp_data_directory / "mock_get_single_school_data_test.csv"
+        shutil.copy(permanent_mock_data_file, temporary_mock_data_file)
+
+        mock_school_data = pd.read_csv(temporary_mock_data_file)
+
+        # Act
+        school_data = DataAquisition.get_single_school_data("St Anne's Catholic Primary School, Streetly", "104241")
+
+        # Assert
+        pd.testing.assert_frame_equal(school_data, mock_school_data)
