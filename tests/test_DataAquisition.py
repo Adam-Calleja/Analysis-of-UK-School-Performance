@@ -423,3 +423,26 @@ class TestDataAcquisition:
 
         # Assert
         assert primary_url == "https://www.compare-school-performance.service.gov.uk/school/104241/st-anne's-catholic-primary-school%2c-streetly", "get_single_school_primary_url() did not return the correct URL."
+
+    def test_get_single_school_primary_data_correct_return(self, temp_data_directory):
+        """
+        Tests 'get_single_school_primary_data' return is correct
+
+        Tests that the function 'get_single_school_primary_data' returns
+        the correct pd.DataFrame. This pd.DataFrame should contain the 
+        primary results data for the school 'St Anne's Catholic Primary 
+        School, Streetly'  which has the URN '104241'.
+        """
+
+        # Arrange
+        permanent_mock_data_file = Path.cwd() / "test_data" / "get_single_primary_data_test.csv"
+        temporary_mock_data_file = temp_data_directory / "get_single_primary_data_test.csv"
+        shutil.copy(permanent_mock_data_file, temporary_mock_data_file)
+
+        mock_school_primary_data = pd.read_csv(temporary_mock_data_file)
+
+        # Act
+        school_primary_data = DataAquisition.get_single_school_primary_data("St Anne's Catholic Primary School, Streetly", "104241")
+
+        # Assert
+        pd.testing.assert_frame_equal(school_primary_data, mock_school_primary_data)
