@@ -116,7 +116,7 @@ class TestDataAcquisition:
 
     test_get_single_school_primary_url_correct_return()
 
-    TODO: test_get_single_school_primary_data_correct_return()
+    test_get_single_school_primary_data_correct_return()
 
     TODO: test_get_single_school_absence_and_pupil_url_correct_return()
 
@@ -417,12 +417,13 @@ class TestDataAcquisition:
         """
 
         # Arrange
+        mock_url = "https://www.compare-school-performance.service.gov.uk/school/104241/st-anne's-catholic-primary-school%2c-streetly"
 
         # Act 
         primary_url = DataAquisition.get_single_school_primary_url("St Anne's Catholic Primary School, Streetly", "104241")
 
         # Assert
-        assert primary_url == "https://www.compare-school-performance.service.gov.uk/school/104241/st-anne's-catholic-primary-school%2c-streetly", "get_single_school_primary_url() did not return the correct URL."
+        assert primary_url == mock_url, "get_single_school_primary_url() did not return the correct URL."
 
     def test_get_single_school_primary_data_correct_return(self, temp_data_directory):
         """
@@ -446,3 +447,21 @@ class TestDataAcquisition:
 
         # Assert
         pd.testing.assert_frame_equal(school_primary_data, mock_school_primary_data)
+
+    def test_get_single_school_absence_and_pupil_url_correct_return(self):
+        """
+        Tests 'get_single_school_absence_and_pupil_url' return is correct
+
+        Tests the function 'get_single_school_absence_and_pupil_url' for 
+        the school 'St Anne's Catholic Primary School, Streetly' which has
+        the URN '104241'
+        """
+
+        # Arrange
+        mock_url = "https://www.compare-school-performance.service.gov.uk/school/104241/st-anne's-catholic-primary-school%2c-streetly/absence-and-pupil-population"
+
+        # Act
+        absence_and_pupil_url = DataAquisition.get_single_school_absence_and_pupil_url("St Anne's Catholic Primary School, Streetly", "104241")
+
+        # Assert
+        assert absence_and_pupil_url == mock_url, "get_single_school_absence_and_pupil_url() did not return the correct URL."
