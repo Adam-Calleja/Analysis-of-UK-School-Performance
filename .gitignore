@@ -3,3 +3,5 @@ private/
 
 chromedriver/
 .ipynb_checkpoints/
+tests/__pycache__/
+__pycache__/

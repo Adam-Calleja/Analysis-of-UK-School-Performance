@@ -15,6 +15,12 @@ EXPECTED_PARLIAMENTARY_CONSTITUENT_LIST = ['Aldershot', 'Aldridge-Brownhills', '
                                            'Aberdeen North', 'Aberdeen South', 'Angus', 'Ayr, Carrick and Cumnock', 'Argyll and Bute', 
                                            'Belfast East', 'Belfast North', 'Fermanagh and South Tyrone', 'Foyle', 'East Antrim']
 
+EXPECTED_SINGLE_SCHOOL_PRIMARY_URL = "https://www.compare-school-performance.service.gov.uk/school/104241/st-anne's-catholic-primary-school%2c-streetly/primary"
+
+EXPECTED_SINGLE_SCHOOL_ABSENCE_AND_PUPIL_URL = "https://www.compare-school-performance.service.gov.uk/school/104241/st-anne's-catholic-primary-school%2c-streetly/absence-and-pupil-population"
+
+
+
 class TestDataAcquisition:
     """
     Test class for the DataAquisition.py script
@@ -124,10 +130,8 @@ class TestDataAcquisition:
 
     test_get_single_school_data_correct_return()
 
+    TODO: fix test_scrape_parliamentary_constitiencies
     TODO: test_get_all_school_data_correct_return()
-
-    TODO: test_data_aquisition ...
-
     """
 
     @pytest.fixture
@@ -178,7 +182,7 @@ class TestDataAcquisition:
         """
 
         # Arrange
-        permanent_mock_data_file = Path.cwd() / "test_data" / "uk_parliamentary_constituencies_test.txt"
+        permanent_mock_data_file = Path.cwd() / "test_data" / "mock_uk_parliamentary_constituencies_test.txt"
         temporary_mock_data_file = temp_data_directory / "uk_parliamentary_constituencies.txt"
         shutil.copy(permanent_mock_data_file, temporary_mock_data_file)
 
@@ -199,7 +203,7 @@ class TestDataAcquisition:
         """
             
         # Arrange
-        permanent_mock_data_file = Path.cwd() / "test_data" / "uk_parliamentary_constituencies_test.txt"
+        permanent_mock_data_file = Path.cwd() / "test_data" / "mock_uk_parliamentary_constituencies_test.txt"
         temporary_mock_data_file = temp_data_directory / "uk_parliamentary_constituencies.txt"
         shutil.copy(permanent_mock_data_file, temporary_mock_data_file)
 
@@ -284,7 +288,7 @@ class TestDataAcquisition:
         """
 
         # Arrange
-        permanent_mock_data_file = Path.cwd() / "test_data" / "uk_school_identification_information_test.csv"
+        permanent_mock_data_file = Path.cwd() / "test_data" / "mock_uk_school_identification_information_test.csv"
         temporary_mock_data_file = temp_data_directory / "uk_school_identification_information.csv"
         shutil.copy(permanent_mock_data_file, temporary_mock_data_file)
 
@@ -307,7 +311,7 @@ class TestDataAcquisition:
         """
 
         # Arrange
-        permanent_mock_data_file = Path.cwd() / "test_data" / "uk_school_identification_information_test.csv"
+        permanent_mock_data_file = Path.cwd() / "test_data" / "mock_uk_school_identification_information_test.csv"
         temporary_mock_data_file = temp_data_directory / "uk_school_identification_information.csv"
         shutil.copy(permanent_mock_data_file, temporary_mock_data_file)
 
@@ -330,7 +334,7 @@ class TestDataAcquisition:
         """
 
         # Arrange
-        permanent_mock_data_file = Path.cwd() / "test_data" / "uk_school_identification_information_test.csv"
+        permanent_mock_data_file = Path.cwd() / "test_data" / "mock_uk_school_identification_information_test.csv"
         uk_school_identification_information_mock_dataframe = pd.read_csv(permanent_mock_data_file, index_col=0)
 
         # Act
@@ -379,7 +383,7 @@ class TestDataAcquisition:
         """
 
         # Arrange
-        permanent_mock_data_file = Path.cwd() / "test_data" / "uk_school_identification_information_test.csv"
+        permanent_mock_data_file = Path.cwd() / "test_data" / "mock_uk_school_identification_information_test.csv"
         uk_school_identification_information_mock_dataframe = pd.read_csv(permanent_mock_data_file, index_col=0)
 
         # Act
@@ -419,13 +423,12 @@ class TestDataAcquisition:
         """
 
         # Arrange
-        mock_url = "https://www.compare-school-performance.service.gov.uk/school/104241/st-anne's-catholic-primary-school%2c-streetly"
 
         # Act 
         primary_url = DataAquisition.get_single_school_primary_url("St Anne's Catholic Primary School, Streetly", "104241")
 
         # Assert
-        assert primary_url == mock_url, "get_single_school_primary_url() did not return the correct URL."
+        assert primary_url == EXPECTED_SINGLE_SCHOOL_PRIMARY_URL, "get_single_school_primary_url() did not return the correct URL."
 
     def test_get_single_school_primary_data_correct_return(self, temp_data_directory):
         """
@@ -438,7 +441,7 @@ class TestDataAcquisition:
         """
 
         # Arrange
-        permanent_mock_data_file = Path.cwd() / "test_data" / "get_single_primary_data_test.csv"
+        permanent_mock_data_file = Path.cwd() / "test_data" / "mock_get_single_primary_data_test.csv"
         temporary_mock_data_file = temp_data_directory / "get_single_primary_data_test.csv"
         shutil.copy(permanent_mock_data_file, temporary_mock_data_file)
 
@@ -460,13 +463,12 @@ class TestDataAcquisition:
         """
 
         # Arrange
-        mock_url = "https://www.compare-school-performance.service.gov.uk/school/104241/st-anne's-catholic-primary-school%2c-streetly/absence-and-pupil-population"
 
         # Act
         absence_and_pupil_url = DataAquisition.get_single_school_absence_and_pupil_url("St Anne's Catholic Primary School, Streetly", "104241")
 
         # Assert
-        assert absence_and_pupil_url == mock_url, "get_single_school_absence_and_pupil_url() did not return the correct URL."
+        assert absence_and_pupil_url == EXPECTED_SINGLE_SCHOOL_ABSENCE_AND_PUPIL_URL, "get_single_school_absence_and_pupil_url() did not return the correct URL."
 
     def test_get_single_school_absence_and_pupil_data_correct_return(self, temp_data_directory):
         """
@@ -479,7 +481,7 @@ class TestDataAcquisition:
         """
 
         # Arrange
-        permanent_mock_data_file = Path.cwd() / "test_data" / "get_single_school_absence_and_pupil_data_test.csv"
+        permanent_mock_data_file = Path.cwd() / "test_data" / "mock_get_single_school_absence_and_pupil_data_test.csv"
         temporary_mock_data_file = temp_data_directory / "get_single_school_absence_and_pupil_data_test.csv"
         shutil.copy(permanent_mock_data_file, temporary_mock_data_file)
 
