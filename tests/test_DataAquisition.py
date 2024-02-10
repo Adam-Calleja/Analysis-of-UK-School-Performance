@@ -129,8 +129,7 @@ class TestDataAcquisition:
     test_get_single_school_absence_and_pupil_data_correct_return()
 
     test_get_single_school_data_correct_return()
-
-    TODO: fix test_scrape_parliamentary_constitiencies
+    
     TODO: test_get_all_school_data_correct_return()
     """
 
@@ -171,6 +170,36 @@ class TestDataAcquisition:
         
         monkeypatch.__setattr__('requests.get', mock_get)
 
+    @pytest.fixture
+    def mock_requests_get_parliamentary_constituent_data(monkeypatch):
+        """
+        Mocks the 'requests.get()' function 
+
+        This fixture will be used in the test cases that test functions
+        that request the parliamentary constituent web page. Rather than
+        returning the actual wiki page, this fixture will return the 
+        mock wiki page 'uk_constituency_wiki_sample.html'.
+        """
+        def mock_get(url):
+            """
+            Returns a mocked response object with HTML content
+            """
+            class MockResponse:
+                def __init__(self, content):
+                    self.content = content
+
+                def text(self):
+                    return self.content
+                
+            mock_html_file_path = "test_data/uk_constituency_wiki_sample.html"
+
+            with open(mock_html_file_path, 'r', encoding='utf-8') as mock_data_file:
+                mock_html_content = mock_data_file.read()
+
+            return MockResponse(mock_html_content)
+        
+        monkeypatch.__setattr__('requests.get', mock_get)
+
 
     def test_read_parliamentary_constituencies_correct_return(self, temp_data_directory):
         """
@@ -192,7 +221,7 @@ class TestDataAcquisition:
         # Assert
         assert parliamentary_constituent_list == EXPECTED_PARLIAMENTARY_CONSTITUENT_LIST, "read_parliamentary_constituencies() did not return correct list"
 
-    def test_get_parliamentary_constituencies_file_exists_correct_return(self, temp_data_directory):
+    def test_get_parliamentary_constituencies_file_exists_correct_return(self, temp_data_directory, mock_requests_get_parliamentary_constituent_data):
         """
         Tests that the list returned by the function 
         'get_parliamentary_constituencies()' is correct when the file 
@@ -213,7 +242,7 @@ class TestDataAcquisition:
         # Assert
         assert parliamentary_constituent_list == EXPECTED_PARLIAMENTARY_CONSTITUENT_LIST, "get_parliamentary_constituencies() did not return correct list"
 
-    def test_get_parliamentary_constituencies_file_does_not_exist_correct_return(self, temp_data_directory):
+    def test_get_parliamentary_constituencies_file_does_not_exist_correct_return(self, temp_data_directory, mock_requests_get_parliamentary_constituent_data):
         """
         Tests that the list returned by the function 
         'get_parliamentary_constituencies()' is correct when the file 
@@ -231,7 +260,7 @@ class TestDataAcquisition:
         # Assert
         assert parliamentary_constituent_list == EXPECTED_PARLIAMENTARY_CONSTITUENT_LIST, "get_parliamentary_constituencies() did not return correct list"
 
-    def test_get_parliamentary_constituencies_file_does_not_exist_creates_correct_file(temp_data_directory):
+    def test_get_parliamentary_constituencies_file_does_not_exist_creates_correct_file(temp_data_directory, mock_requests_get_parliamentary_constituent_data):
         """
         Tests that calling the function 'get_parliamentary_constituencies' 
         when the file 'uk_parliamentary_constituencies.txt' does not exist
@@ -246,7 +275,7 @@ class TestDataAcquisition:
         # Assert
         assert os.path.exists("data/uk_parliamentary_constituencies.txt") == True, "get_parliamentary_constituencies() did not create the file 'uk_parliamentary_constituencies.txt"
         
-    def test_scrape_parliamentary_constituencies_file_does_not_exist_creates_correct_file(self, temp_data_directory):
+    def test_scrape_parliamentary_constituencies_file_does_not_exist_creates_correct_file(self, temp_data_directory, mock_requests_get_parliamentary_constituent_data):
         """
         Tests that calling the function 'scrape_parliamentary_constituencies' 
         when the file 'uk_parliamentary_constituencies.txt' does not exist
@@ -261,7 +290,7 @@ class TestDataAcquisition:
         # Assert
         assert os.path.exists("data/uk_parliamentary_constituencies.txt") == True, "scrape_parliamentary_constituencies() did not create the file 'uk_parliamentary_constituencies.txt"
 
-    def test_scrape_parliamentary_constituencies_correct_return(self, temp_data_directory):
+    def test_scrape_parliamentary_constituencies_correct_return(self, temp_data_directory, mock_requests_get_parliamentary_constituent_data):
         """
         Tests that the list returned by the function 
         'scrape_parliamentary_constituencies()' is correct.
