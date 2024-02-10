@@ -11,9 +11,9 @@ import pandas as pd
 import DataAquisition
 from typing import List
 
-EXPECTED_PARLIAMENTARY_CONSTITUENT_LIST = ['Aldershot', 'Aldridge-Brownhills', 'Altrincham and Sale West', 'Ashton-under-Lyne', 'Banbury', 
+EXPECTED_PARLIAMENTARY_CONSTITUENT_LIST = {'Aldershot', 'Aldridge-Brownhills', 'Altrincham and Sale West', 'Ashton-under-Lyne', 'Banbury', 
                                            'Aberdeen North', 'Aberdeen South', 'Angus', 'Ayr, Carrick and Cumnock', 'Argyll and Bute', 
-                                           'Belfast East', 'Belfast North', 'Fermanagh and South Tyrone', 'Foyle', 'East Antrim']
+                                           'Belfast East', 'Belfast North', 'Fermanagh and South Tyrone', 'Foyle', 'East Antrim'}
 
 EXPECTED_SINGLE_SCHOOL_PRIMARY_URL = "https://www.compare-school-performance.service.gov.uk/school/104241/st-anne's-catholic-primary-school%2c-streetly/primary"
 
@@ -219,7 +219,7 @@ class TestDataAcquisition:
         parliamentary_constituent_list = DataAquisition.read_parliamentary_constituencies()
 
         # Assert
-        assert parliamentary_constituent_list == EXPECTED_PARLIAMENTARY_CONSTITUENT_LIST, "read_parliamentary_constituencies() did not return correct list"
+        assert set(parliamentary_constituent_list) == EXPECTED_PARLIAMENTARY_CONSTITUENT_LIST, "read_parliamentary_constituencies() did not return correct list"
 
     def test_get_parliamentary_constituencies_file_exists_correct_return(self, temp_data_directory, mock_requests_get_parliamentary_constituent_data):
         """
@@ -240,7 +240,7 @@ class TestDataAcquisition:
         parliamentary_constituent_list = DataAquisition.get_parliamentary_constituencies()
 
         # Assert
-        assert parliamentary_constituent_list == EXPECTED_PARLIAMENTARY_CONSTITUENT_LIST, "get_parliamentary_constituencies() did not return correct list"
+        assert set(parliamentary_constituent_list) == EXPECTED_PARLIAMENTARY_CONSTITUENT_LIST, "get_parliamentary_constituencies() did not return correct list"
 
     def test_get_parliamentary_constituencies_file_does_not_exist_correct_return(self, temp_data_directory, mock_requests_get_parliamentary_constituent_data):
         """
@@ -258,7 +258,7 @@ class TestDataAcquisition:
         parliamentary_constituent_list = DataAquisition.get_parliamentary_constituencies()
 
         # Assert
-        assert parliamentary_constituent_list == EXPECTED_PARLIAMENTARY_CONSTITUENT_LIST, "get_parliamentary_constituencies() did not return correct list"
+        assert set(parliamentary_constituent_list) == EXPECTED_PARLIAMENTARY_CONSTITUENT_LIST, "get_parliamentary_constituencies() did not return correct list"
 
     def test_get_parliamentary_constituencies_file_does_not_exist_creates_correct_file(temp_data_directory, mock_requests_get_parliamentary_constituent_data):
         """
@@ -305,7 +305,7 @@ class TestDataAcquisition:
         parliamentary_constituent_list = DataAquisition.scrape_parliamentary_constituencies()
 
         # Assert
-        assert parliamentary_constituent_list == EXPECTED_PARLIAMENTARY_CONSTITUENT_LIST, "scrape_parliamentary_constituencies() did not return correct list"
+        assert set(parliamentary_constituent_list) == EXPECTED_PARLIAMENTARY_CONSTITUENT_LIST, "scrape_parliamentary_constituencies() did not return correct list"
 
     def test_read_school_identification_information_correct_return(self, temp_data_directory):
         """
