@@ -129,8 +129,8 @@ class TestDataAcquisition:
     test_get_single_school_absence_and_pupil_data_correct_return()
 
     test_get_single_school_data_correct_return()
-    
-    TODO: test_get_all_school_data_correct_return()
+
+    test_get_all_school_data_correct_return()
     """
 
     @pytest.fixture
@@ -545,3 +545,40 @@ class TestDataAcquisition:
 
         # Assert
         pd.testing.assert_frame_equal(school_data, mock_school_data)
+
+    def test_get_all_school_data_correct_return(self, temp_data_directory):
+        """
+        Tests 'get_all_school_data' returns the correct pd.DataFrame
+
+        Tests that the function 'get_all_school_data' returns the
+        correct pd.DataFrame when the file 'uk_school_identification...
+        ..._information.csv' contains the following 8 schools only: 
+        - St Anne's Catholic Primary School, Streetly
+        - St Francis Catholic Primary School
+        - Holy Trinity Church of England Primary School
+        - St Bernadette's Catholic Primary School
+        - Millfield Primary School
+        - St James Primary School
+        - Leighswood School
+        - |Greenfield Primary School
+
+        The pd.DataFrame returned should be the same as the pd.DataFrame
+        stored in the file 'mock_get_all_school_data_return.csv'. 
+        """
+
+        # Arrange
+        permanent_mock_return_data_file = Path.cwd() / "test_data" / "mock_get_all_school_data_return.csv"
+        temporary_mock_return_data_file = temp_data_directory / "mock_get_all_school_data_return.csv"
+        shutil.copy(permanent_mock_return_data_file, temporary_mock_return_data_file)
+
+        permanent_mock_school_information_data_file = Path.cwd() / "test_data" / "mock_school_identification_information_test_get_all_school_data.csv"
+        temporary_mock_school_information_data_file = temp_data_directory / "uk_school_identification_information.csv"
+        shutil.copy(permanent_mock_school_information_data_file, temporary_mock_school_information_data_file)
+
+        mock_expected_return_data = pd.read_csv(temporary_mock_return_data_file)
+
+        # Act
+        all_school_data = DataAquisition.get_all_school_data()
+
+        # Assert
+        pd.testing.assert_frame_equal(all_school_data, mock_expected_return_data)
