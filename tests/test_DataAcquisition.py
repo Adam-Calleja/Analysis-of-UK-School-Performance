@@ -7,6 +7,7 @@ import shutil
 from pathlib import Path
 import os
 import pandas as pd
+from io import StringIO
 
 import DataAcquisition
 from typing import List
@@ -94,7 +95,7 @@ class TestDataAcquisition:
     
     Methods
     -------
-    TODO: test_get_user_agent_file_exists_correct_return()
+    test_get_user_agent_file_exists_correct_return()
 
     TODO: test_get_user_agent_file_does_not_exist_correct_return()
 
@@ -225,6 +226,23 @@ class TestDataAcquisition:
 
         # Assert
         assert user_agent == expected_user_agent, "get_user_agent() did not return the correct user agent."
+
+    def test_get_user_agent_file_does_not_exist_correct_output(self, temp_data_directory):
+        """
+        Tests that 'get_user_agent' outputs the correct error message
+
+        Tests that the function 'get_user_agent' outputs the correct error
+        message when the file 'user_agent.txt' does not exist. 
+        """
+
+        # Arrange
+
+        # Act
+        with pytest.raises(FileNotFoundError) as error:
+            user_agent = DataAcquisition.get_user_agent()
+
+        # Assert
+        assert str(error.value) == "The file 'user_agent.txt' does not exist.", "get_user_agent() did not output the correct error message."
 
 
     def test_read_parliamentary_constituencies_correct_return(self, temp_data_directory):
