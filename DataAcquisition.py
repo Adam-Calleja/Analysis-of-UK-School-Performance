@@ -100,8 +100,13 @@ def read_parliamentary_constituencies() -> List[str]:
     uk_parliamentary_constituencies() : List[str]
         A list of all the parliamentary constituencies in the UK.
     """
+
+    with open('data/uk_parliamentary_constituencies.txt', 'r') as file:
+        uk_parliamentary_constituencies = file.readlines() 
+
+    uk_parliamentary_constituencies = [constituency.strip('\n') for constituency in uk_parliamentary_constituencies]
     
-    return None
+    return uk_parliamentary_constituencies
 
 def scrape_parliamentary_constituencies() -> List[str]:
     """

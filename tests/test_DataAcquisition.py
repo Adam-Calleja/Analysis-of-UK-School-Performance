@@ -8,7 +8,7 @@ from pathlib import Path
 import os
 import pandas as pd
 
-import DataAquisition
+import DataAcquisition
 from typing import List
 
 EXPECTED_PARLIAMENTARY_CONSTITUENT_LIST = {'Aldershot', 'Aldridge-Brownhills', 'Altrincham and Sale West', 'Ashton-under-Lyne', 'Banbury', 
@@ -23,7 +23,7 @@ EXPECTED_SINGLE_SCHOOL_ABSENCE_AND_PUPIL_URL = "https://www.compare-school-perfo
 
 class TestDataAcquisition:
     """
-    Test class for the DataAquisition.py script
+    Test class for the DataAcquisition.py script
 
     Rather than test the script on all of the data it will acquire, I will
     use a subset of the data. I have created a sample wikipedia page for
@@ -216,7 +216,7 @@ class TestDataAcquisition:
         shutil.copy(permanent_mock_data_file, temporary_mock_data_file)
 
         # Act
-        parliamentary_constituent_list = DataAquisition.read_parliamentary_constituencies()
+        parliamentary_constituent_list = DataAcquisition.read_parliamentary_constituencies()
 
         # Assert
         assert set(parliamentary_constituent_list) == EXPECTED_PARLIAMENTARY_CONSTITUENT_LIST, "read_parliamentary_constituencies() did not return correct list"
@@ -237,7 +237,7 @@ class TestDataAcquisition:
         shutil.copy(permanent_mock_data_file, temporary_mock_data_file)
 
         # Act
-        parliamentary_constituent_list = DataAquisition.get_parliamentary_constituencies()
+        parliamentary_constituent_list = DataAcquisition.get_parliamentary_constituencies()
 
         # Assert
         assert set(parliamentary_constituent_list) == EXPECTED_PARLIAMENTARY_CONSTITUENT_LIST, "get_parliamentary_constituencies() did not return correct list"
@@ -255,7 +255,7 @@ class TestDataAcquisition:
         # Arrange 
 
         # Act
-        parliamentary_constituent_list = DataAquisition.get_parliamentary_constituencies()
+        parliamentary_constituent_list = DataAcquisition.get_parliamentary_constituencies()
 
         # Assert
         assert set(parliamentary_constituent_list) == EXPECTED_PARLIAMENTARY_CONSTITUENT_LIST, "get_parliamentary_constituencies() did not return correct list"
@@ -270,7 +270,7 @@ class TestDataAcquisition:
         # Arrange
 
         # Act 
-        DataAquisition.get_parliamentary_constituencies()
+        DataAcquisition.get_parliamentary_constituencies()
 
         # Assert
         assert os.path.exists("data/uk_parliamentary_constituencies.txt") == True, "get_parliamentary_constituencies() did not create the file 'uk_parliamentary_constituencies.txt"
@@ -285,7 +285,7 @@ class TestDataAcquisition:
         # Arrange
 
         # Act 
-        DataAquisition.scrape_parliamentary_constituencies()
+        DataAcquisition.scrape_parliamentary_constituencies()
 
         # Assert
         assert os.path.exists("data/uk_parliamentary_constituencies.txt") == True, "scrape_parliamentary_constituencies() did not create the file 'uk_parliamentary_constituencies.txt"
@@ -302,7 +302,7 @@ class TestDataAcquisition:
         # Arrange 
 
         # Act
-        parliamentary_constituent_list = DataAquisition.scrape_parliamentary_constituencies()
+        parliamentary_constituent_list = DataAcquisition.scrape_parliamentary_constituencies()
 
         # Assert
         assert set(parliamentary_constituent_list) == EXPECTED_PARLIAMENTARY_CONSTITUENT_LIST, "scrape_parliamentary_constituencies() did not return correct list"
@@ -324,7 +324,7 @@ class TestDataAcquisition:
         uk_school_identification_information_mock_dataframe = pd.read_csv('data/uk_school_identification_information.csv', index_col=0)
 
         # Act
-        school_identification_information_dataframe = DataAquisition.read_school_identification_information()
+        school_identification_information_dataframe = DataAcquisition.read_school_identification_information()
 
         # Assert
         pd.testing.assert_frame_equal(school_identification_information_dataframe, uk_school_identification_information_mock_dataframe)
@@ -347,7 +347,7 @@ class TestDataAcquisition:
         uk_school_identification_information_mock_dataframe = pd.read_csv('data/uk_school_identification_information.csv', index_col=0)
 
         # Act
-        school_identification_information_dataframe = DataAquisition.get_school_identification_information()
+        school_identification_information_dataframe = DataAcquisition.get_school_identification_information()
 
         # Assert
         pd.testing.assert_frame_equal(school_identification_information_dataframe, uk_school_identification_information_mock_dataframe)
@@ -367,7 +367,7 @@ class TestDataAcquisition:
         uk_school_identification_information_mock_dataframe = pd.read_csv(permanent_mock_data_file, index_col=0)
 
         # Act
-        school_identification_information_dataframe = DataAquisition.get_school_identification_information()
+        school_identification_information_dataframe = DataAcquisition.get_school_identification_information()
 
         # Assert
         pd.testing.assert_frame_equal(school_identification_information_dataframe, uk_school_identification_information_mock_dataframe)
@@ -382,7 +382,7 @@ class TestDataAcquisition:
         # Arrange
 
         # Act 
-        school_identification_information_dataframe = DataAquisition.get_school_identification_information()
+        school_identification_information_dataframe = DataAcquisition.get_school_identification_information()
 
         # Assert
         assert os.path.exists("data/uk_school_identification_information.csv") == True, "get_school_identification_information() did not create the file 'uk_school_identification_information.csv"
@@ -397,7 +397,7 @@ class TestDataAcquisition:
         # Arrange
 
         # Act 
-        school_identification_information_dataframe = DataAquisition.scrape_school_identification_information()
+        school_identification_information_dataframe = DataAcquisition.scrape_school_identification_information()
 
         # Assert
         assert os.path.exists("data/uk_school_identification_information.csv") == True, "scrape_school_identification_information() did not create the file 'uk_school_identification_information.csv"
@@ -416,7 +416,7 @@ class TestDataAcquisition:
         uk_school_identification_information_mock_dataframe = pd.read_csv(permanent_mock_data_file, index_col=0)
 
         # Act
-        school_identification_information_dataframe = DataAquisition.scrape_school_identification_information()
+        school_identification_information_dataframe = DataAcquisition.scrape_school_identification_information()
 
         # Assert
         pd.testing.assert_frame_equal(school_identification_information_dataframe, uk_school_identification_information_mock_dataframe)
@@ -437,7 +437,7 @@ class TestDataAcquisition:
         dummy_url = 'http://dummy.com'
 
         # Act
-        soup = DataAquisition.get_soup(dummy_url)
+        soup = DataAcquisition.get_soup(dummy_url)
 
         # Assert
         assert soup.find("p").text == "Mock Content", "get_soup() did not return the correct BeautifulSoup object."
@@ -454,7 +454,7 @@ class TestDataAcquisition:
         # Arrange
 
         # Act 
-        primary_url = DataAquisition.get_single_school_primary_url("St Anne's Catholic Primary School, Streetly", "104241")
+        primary_url = DataAcquisition.get_single_school_primary_url("St Anne's Catholic Primary School, Streetly", "104241")
 
         # Assert
         assert primary_url == EXPECTED_SINGLE_SCHOOL_PRIMARY_URL, "get_single_school_primary_url() did not return the correct URL."
@@ -477,7 +477,7 @@ class TestDataAcquisition:
         mock_school_primary_data = pd.read_csv(temporary_mock_data_file)
 
         # Act
-        school_primary_data = DataAquisition.get_single_school_primary_data("St Anne's Catholic Primary School, Streetly", "104241")
+        school_primary_data = DataAcquisition.get_single_school_primary_data("St Anne's Catholic Primary School, Streetly", "104241")
 
         # Assert
         pd.testing.assert_frame_equal(school_primary_data, mock_school_primary_data)
@@ -494,7 +494,7 @@ class TestDataAcquisition:
         # Arrange
 
         # Act
-        absence_and_pupil_url = DataAquisition.get_single_school_absence_and_pupil_url("St Anne's Catholic Primary School, Streetly", "104241")
+        absence_and_pupil_url = DataAcquisition.get_single_school_absence_and_pupil_url("St Anne's Catholic Primary School, Streetly", "104241")
 
         # Assert
         assert absence_and_pupil_url == EXPECTED_SINGLE_SCHOOL_ABSENCE_AND_PUPIL_URL, "get_single_school_absence_and_pupil_url() did not return the correct URL."
@@ -517,7 +517,7 @@ class TestDataAcquisition:
         mock_school_absence_and_pupil_data = pd.read_csv(temporary_mock_data_file)
 
         # Act
-        school_absence_and_pupil_data = DataAquisition.get_single_school_absence_and_pupil_data("St Anne's Catholic Primary School, Streetly", "104241")
+        school_absence_and_pupil_data = DataAcquisition.get_single_school_absence_and_pupil_data("St Anne's Catholic Primary School, Streetly", "104241")
 
         # Assert
         pd.testing.assert_frame_equal(school_absence_and_pupil_data, mock_school_absence_and_pupil_data)
@@ -541,7 +541,7 @@ class TestDataAcquisition:
         mock_school_data = pd.read_csv(temporary_mock_data_file)
 
         # Act
-        school_data = DataAquisition.get_single_school_data("St Anne's Catholic Primary School, Streetly", "104241")
+        school_data = DataAcquisition.get_single_school_data("St Anne's Catholic Primary School, Streetly", "104241")
 
         # Assert
         pd.testing.assert_frame_equal(school_data, mock_school_data)
@@ -578,7 +578,7 @@ class TestDataAcquisition:
         mock_expected_return_data = pd.read_csv(temporary_mock_return_data_file)
 
         # Act
-        all_school_data = DataAquisition.get_all_school_data()
+        all_school_data = DataAcquisition.get_all_school_data()
 
         # Assert
         pd.testing.assert_frame_equal(all_school_data, mock_expected_return_data)
