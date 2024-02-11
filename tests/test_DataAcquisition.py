@@ -94,6 +94,10 @@ class TestDataAcquisition:
     
     Methods
     -------
+    TODO: test_get_user_agent_file_exists_correct_return()
+
+    TODO: test_get_user_agent_file_does_not_exist_correct_return()
+
     test_read_parliamentary_constituencies_correct_return()
 
     test_get_parliamentary_constituencies_file_exists_correct_return()
@@ -199,6 +203,28 @@ class TestDataAcquisition:
             return MockResponse(mock_html_content)
         
         monkeypatch.__setattr__('requests.get', mock_get)
+
+    def test_get_user_agent_file_exists_correct_return(self, temp_data_directory):
+        """
+        Tests that the user agent returned 'get_user_agent' is correct
+
+        Tests that the user agent returned by the function 'get_user_agent'
+        is correct when the file 'user_agent.txt' exists. 
+        """
+
+        # Arrange
+        permanent_mock_user_agent_file = Path.cwd() / "test_data" / "mock_user_agent.txt"
+        temporary_mock_user_agent_file = temp_data_directory / "user_agent.txt"
+        shutil.copy(permanent_mock_user_agent_file, temporary_mock_user_agent_file)
+
+        with open(temporary_mock_user_agent_file, 'r') as file:
+            expected_user_agent = file.read()
+
+        # Act
+        user_agent = DataAcquisition.get_user_agent()
+
+        # Assert
+        assert user_agent == expected_user_agent, "get_user_agent() did not return the correct user agent."
 
 
     def test_read_parliamentary_constituencies_correct_return(self, temp_data_directory):

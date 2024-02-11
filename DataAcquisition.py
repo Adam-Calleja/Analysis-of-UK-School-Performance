@@ -1,6 +1,9 @@
 """
 Scrapes the data required for my Analysis of UK School Performance project
 
+Scrapes the parliamentary constituencies from wikipedia [1] and stores them 
+in the .txt file 'uk_parliamentary_constituencies.txt'. 
+
 Aquires the following data for all primary schools in the UK:
     - school name
     - school unique reference number (URN)
@@ -63,7 +66,7 @@ user_agent : str
 Notes
 -----
 The user agent in the example below is obtained from 
-https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/User-Agent [1].    
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/User-Agent [2].    
 
 Examples
 --------
@@ -71,7 +74,13 @@ Examples
 
 References
 ----------
-[1] gregbirch, iigmir, mfuji09, darby, Tigit, ExE-Boss, fscholz, 
+
+[1] Wikipedia contributors. (2024, February 6). Constituencies of the 
+    Parliament of the United Kingdom. In Wikipedia, The Free Encyclopedia.
+    Retrieved 15:46, February 11, 2024, from 
+    https://en.wikipedia.org/w/index.php?title=Constituencies_of_the_Parliament_of_the_United_Kingdom&oldid=1204196556
+
+[2] gregbirch, iigmir, mfuji09, darby, Tigit, ExE-Boss, fscholz, 
     an_editor, wbamberg, hamishwillee, queengooborg, teoli2003, nshonni,
     rubiesonthesky, Josh-Cena, shaedrich, dipikabh, sideshowbarker. 
     "User - Agent - HTTP | MDN". mdn web doc.
@@ -85,6 +94,23 @@ from bs4 import BeautifulSoup
 import requests
 import os
 import pandas as pd
+import sys
+
+def get_user_agent() -> str:
+    """
+    Returns the user agent to be used when making html requests. 
+
+    Reads the user agent from the file 'user_agent.txt' and returns it.
+    If the file 'user_agent.txt' does not exist, it returns the default
+    user agent specified in the documentation for this class.
+
+    Returns
+    -------
+    user_agent : str
+        The user agent to be used when making html requests.
+    """
+
+    return None
 
 def read_parliamentary_constituencies() -> List[str]:
     """
