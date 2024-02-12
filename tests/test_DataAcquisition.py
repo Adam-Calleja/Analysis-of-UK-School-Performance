@@ -20,7 +20,7 @@ EXPECTED_SINGLE_SCHOOL_PRIMARY_URL = "https://www.compare-school-performance.ser
 
 EXPECTED_SINGLE_SCHOOL_ABSENCE_AND_PUPIL_URL = "https://www.compare-school-performance.service.gov.uk/school/104241/st-anne's-catholic-primary-school%2c-streetly/absence-and-pupil-population"
 
-
+EXPECTED_ERROR_MESSAGE = "The file 'user_agent.txt' does not exist. Please create a file 'user_agent.txt' in the 'data' directory and enter your user agent."
 
 class TestDataAcquisition:
     """
@@ -242,7 +242,7 @@ class TestDataAcquisition:
             user_agent = DataAcquisition.get_user_agent()
 
         # Assert
-        assert str(error.value) == "The file 'user_agent.txt' does not exist.", "get_user_agent() did not output the correct error message."
+        assert str(error.value) == EXPECTED_ERROR_MESSAGE, "get_user_agent() did not output the correct error message."
 
 
     def test_read_parliamentary_constituencies_correct_return(self, temp_data_directory):

@@ -94,15 +94,14 @@ from bs4 import BeautifulSoup
 import requests
 import os
 import pandas as pd
-import sys
 
 def get_user_agent() -> str:
     """
     Returns the user agent to be used when making html requests. 
 
     Reads the user agent from the file 'user_agent.txt' and returns it.
-    If the file 'user_agent.txt' does not exist, it returns the default
-    user agent specified in the documentation for this class.
+    If the file 'user_agent.txt' does not exist, then a FileNotFoundError
+    is raised.
 
     Returns
     -------
@@ -110,7 +109,13 @@ def get_user_agent() -> str:
         The user agent to be used when making html requests.
     """
 
-    return None
+    try:
+        with open('data/user_agent.txt', 'r') as file:
+            user_agent = file.read()
+    except FileNotFoundError:
+        raise FileNotFoundError("The file 'user_agent.txt' does not exist. Please create a file 'user_agent.txt' in the 'data' directory and enter your user agent.")
+
+    return user_agent
 
 def read_parliamentary_constituencies() -> List[str]:
     """
