@@ -22,6 +22,8 @@ EXPECTED_SINGLE_SCHOOL_ABSENCE_AND_PUPIL_URL = "https://www.compare-school-perfo
 
 EXPECTED_ERROR_MESSAGE = "The file 'user_agent.txt' does not exist. Please create a file 'user_agent.txt' in the 'data' directory and enter your user agent."
 
+PARLIAMENTARY_CONSTITUENT_WIKI_URL = "https://en.wikipedia.org/w/index.php?title=Constituencies_of_the_Parliament_of_the_United_Kingdom&oldid=1204196556"
+
 class TestDataAcquisition:
     """
     Test class for the DataAcquisition.py script
@@ -178,28 +180,7 @@ class TestDataAcquisition:
         shutil.rmtree(data_directory)
 
     @pytest.fixture
-    def mock_requests_get(monkeypatch):
-        """
-        Mocks the 'requests.get()' function
-        """
-        def mock_get(url):
-            """
-            Returns a mocked response object with HTML content
-            """
-            class MockResponse:
-                def __init__(self, content):
-                    self.content = content
-
-                def text(self):
-                    return self.content
-                
-            mock_html_content = "<html><body><p>Mock Content</p></body></html>"
-            return MockResponse(mock_html_content)
-        
-        monkeypatch.__setattr__('requests.get', mock_get)
-
-    @pytest.fixture
-    def mock_requests_get_parliamentary_constituent_data(monkeypatch):
+    def mock_requests_get_parliamentary_constituent_data(self, requests_mock):
         """
         Mocks the 'requests.get()' function 
 
@@ -208,25 +189,13 @@ class TestDataAcquisition:
         returning the actual wiki page, this fixture will return the 
         mock wiki page 'uk_constituency_wiki_sample.html'.
         """
-        def mock_get(url):
-            """
-            Returns a mocked response object with HTML content
-            """
-            class MockResponse:
-                def __init__(self, content):
-                    self.content = content
 
-                def text(self):
-                    return self.content
-                
-            mock_html_file_path = "test_data/uk_constituency_wiki_sample.html"
+        mock_html_file_path = Path.cwd() / "test_data" / "uk_constituency_wiki_sample.html"
 
-            with open(mock_html_file_path, 'r', encoding='utf-8') as mock_data_file:
-                mock_html_content = mock_data_file.read()
+        with open(mock_html_file_path, 'r', encoding='utf-8') as mock_data_file:
+            mock_html_content = mock_data_file.read()
 
-            return MockResponse(mock_html_content)
-        
-        monkeypatch.__setattr__('requests.get', mock_get)
+        requests_mock.get(PARLIAMENTARY_CONSTITUENT_WIKI_URL, text=mock_html_content)
 
     def test_get_user_agent_file_exists_correct_return(self, temp_data_directory):
         """
@@ -488,7 +457,7 @@ class TestDataAcquisition:
         # Assert
         pd.testing.assert_frame_equal(school_identification_information_dataframe, uk_school_identification_information_mock_dataframe)
 
-    def test_get_soup_correct_return(self, temp_data_directory_with_mock_user_agent_file, mock_requests_get):
+    def test_get_soup_correct_return(self, temp_data_directory_with_mock_user_agent_file, requests_mock):
         """
         Tests that 'get_soup' returns the correct BeautifulSoup object
 
@@ -502,6 +471,8 @@ class TestDataAcquisition:
 
         # Arrange
         dummy_url = 'http://dummy.com'
+        requests_mock.get(dummy_url, text="<p>Mock Content<p>")
+
 
         # Act
         soup = DataAcquisition.get_soup(dummy_url)
