@@ -12,9 +12,7 @@ from io import StringIO
 import DataAcquisition
 from typing import List
 
-EXPECTED_PARLIAMENTARY_CONSTITUENT_LIST = {'Aldershot', 'Aldridge-Brownhills', 'Altrincham and Sale West', 'Ashton-under-Lyne', 'Banbury', 
-                                           'Aberdeen North', 'Aberdeen South', 'Angus', 'Ayr, Carrick and Cumnock', 'Argyll and Bute', 
-                                           'Belfast East', 'Belfast North', 'Fermanagh and South Tyrone', 'Foyle', 'East Antrim'}
+EXPECTED_PARLIAMENTARY_CONSTITUENT_LIST = {'Aldershot', 'Aldridge-Brownhills', 'Altrincham and Sale West', 'Ashton-under-Lyne', 'Banbury'}
 
 EXPECTED_SINGLE_SCHOOL_PRIMARY_URL = "https://www.compare-school-performance.service.gov.uk/school/104241/st-anne's-catholic-primary-school%2c-streetly/primary"
 
@@ -32,29 +30,12 @@ class TestDataAcquisition:
     use a subset of the data. I have created a sample wikipedia page for
     the parliamentary constituencies in the UK, by modifying the real 
     wikipedia page that I will scrape. This sample page contains only the 
-    following 10 parliamentary constituencies for each of England, 
-    Scotland and Northern Ireland:
-
-    England:
+    following 5 parliamentary constituencies in England:
     - Aldershot
     - Aldridge-Brownhills
     - Altrincham and Sale West
     - Ashton-under-Lyne
     - Banbury
-
-    Scotland: 
-    - Aberdeen North
-    - Aberdeen South
-    - Angus
-    - Argyll and Bute
-    - Ayr, Carrick and Cumnock
-
-    Nothern Ireland: 
-    - Belfast East
-    - Belfast North
-    - East Antrim
-    - Fermanagh and South Tyrone
-    - Foyle 
 
     When testing the functions related to obtaining school-specific 
     information, the mock data will only contain primary schools in
