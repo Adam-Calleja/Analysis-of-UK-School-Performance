@@ -168,6 +168,10 @@ def scrape_parliamentary_constituencies() -> List[str]:
         constituency = cells[0].text.strip()
         uk_parliamentary_constituencies.append(constituency)
 
+    with open('data/uk_parliamentary_constituencies.txt', 'w') as file:
+        for constituency in uk_parliamentary_constituencies:
+            file.write(constituency + '\n')
+
     return uk_parliamentary_constituencies
 
 def get_parliamentary_constituencies() -> List[str]:
