@@ -151,11 +151,24 @@ def scrape_parliamentary_constituencies() -> List[str]:
 
     Returns
     -------
-    uk_parliamentary_constituencies() : List[str]
+    uk_parliamentary_constituencies : List[str]
         A list of all the parliamentary constituencies in the UK.
     """
-    
-    return None
+
+    PARLIAMENTARY_DATA_URL = "https://en.wikipedia.org/w/index.php?title=Constituencies_of_the_Parliament_of_the_United_Kingdom&oldid=1204196556"
+
+    soup = get_soup(PARLIAMENTARY_DATA_URL)
+
+    rows = soup.select("table#England tr")
+
+    uk_parliamentary_constituencies = []
+
+    for row in rows[1:]:
+        cells = row.select("td")
+        constituency = cells[0].text.strip()
+        uk_parliamentary_constituencies.append(constituency)
+
+    return uk_parliamentary_constituencies
 
 def get_parliamentary_constituencies() -> List[str]:
     """
@@ -203,7 +216,7 @@ def scrape_school_identification_information() -> pd.DataFrame:
     It scrapes the gov.uk website to obtain and return a pd.DataFrame 
     containing the name and Unique Identification Number (URN) for every
     school in the UK. It then saves this pd.DataFrame in the file 
-    'uk_school_identification_information.csv'.
+    'uk_school_identification_information.csv'.S
 
     Returns
     -------
@@ -245,8 +258,14 @@ def get_soup(url: str) -> BeautifulSoup:
     soup : BeautifulSoup
         The BeautifulSoup object representing the webpage to be parsed.
     """
-    
-    return None
+
+    user_agent = get_user_agent()
+    headers = {'User-Agent': user_agent}
+
+    page = requests.get(url, headers=headers)
+    soup = BeautifulSoup(page.content, 'html.parser')
+
+    return soup
 
 def get_single_school_primary_url(school_name: str, school_urn: str) -> str:
     """
