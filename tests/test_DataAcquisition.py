@@ -371,7 +371,7 @@ class TestDataAcquisition:
         # Assert
         pd.testing.assert_frame_equal(school_identification_information_dataframe, uk_school_identification_information_mock_dataframe)
 
-    def test_get_school_identification_information_file_does_not_exist_correct_return(self, temp_data_directory):
+    def test_get_school_identification_information_file_does_not_exist_correct_return(self, temp_data_directory_with_mock_user_agent_file):
         """
         Tests that the pd.DataFrame returned by the function
         'get_school_identification_information()' is correct when the 
@@ -383,15 +383,16 @@ class TestDataAcquisition:
 
         # Arrange
         permanent_mock_data_file = Path.cwd() / "test_data" / "mock_uk_school_identification_information_test.csv"
-        uk_school_identification_information_mock_dataframe = pd.read_csv(permanent_mock_data_file, index_col=0)
+        uk_school_identification_information_mock_dataframe = pd.read_csv(permanent_mock_data_file, index_col=0, sep='|')
 
         # Act
-        school_identification_information_dataframe = DataAcquisition.get_school_identification_information()
+        with patch('DataAcquisition.get_parliamentary_constituencies', return_value=["Aldridge-Brownhills"]):
+            school_identification_information_dataframe = DataAcquisition.get_school_identification_information()
 
         # Assert
         pd.testing.assert_frame_equal(school_identification_information_dataframe, uk_school_identification_information_mock_dataframe)
 
-    def test_get_school_identification_information_file_does_not_exist_creates_correct_file(self, temp_data_directory):
+    def test_get_school_identification_information_file_does_not_exist_creates_correct_file(self, temp_data_directory_with_mock_user_agent_file):
         """
         Tests that calling the function 'get_school_identification_information()'
         when the file 'uk_school_identification_information.csv' does not exist
@@ -401,12 +402,13 @@ class TestDataAcquisition:
         # Arrange
 
         # Act 
-        school_identification_information_dataframe = DataAcquisition.get_school_identification_information()
+        with patch('DataAcquisition.get_parliamentary_constituencies', return_value=["Aldridge-Brownhills"]):
+            school_identification_information_dataframe = DataAcquisition.get_school_identification_information()
 
         # Assert
         assert os.path.exists("data/uk_school_identification_information.csv") == True, "get_school_identification_information() did not create the file 'uk_school_identification_information.csv"
 
-    def test_scrape_school_identification_information_file_does_not_exist_creates_correct_file(self, temp_data_directory):
+    def test_scrape_school_identification_information_file_does_not_exist_creates_correct_file(self, temp_data_directory_with_mock_user_agent_file):
         """
         Tests that calling the function 'scrape_school_identification_information()'
         when the file 'uk_school_identification_information.csv' does not exist
@@ -416,7 +418,8 @@ class TestDataAcquisition:
         # Arrange
 
         # Act 
-        school_identification_information_dataframe = DataAcquisition.scrape_school_identification_information()
+        with patch('DataAcquisition.get_parliamentary_constituencies', return_value=["Aldridge-Brownhills"]):
+            school_identification_information_dataframe = DataAcquisition.scrape_school_identification_information()
 
         # Assert
         assert os.path.exists("data/uk_school_identification_information.csv") == True, "scrape_school_identification_information() did not create the file 'uk_school_identification_information.csv"
