@@ -190,7 +190,15 @@ def get_parliamentary_constituencies() -> List[str]:
         A list of all the parliamentary constituencies in the UK.
     """
 
-    return None
+    with open('data/uk_parliamentary_constituencies.txt', 'a+') as file:
+        uk_parliamentary_constituencies = file.readlines()
+
+        if not uk_parliamentary_constituencies:
+            uk_parliamentary_constituencies = scrape_parliamentary_constituencies()
+        else:
+            uk_parliamentary_constituencies = read_parliamentary_constituencies()
+
+    return uk_parliamentary_constituencies
 
 def read_school_identification_information() -> pd.DataFrame:
     """
