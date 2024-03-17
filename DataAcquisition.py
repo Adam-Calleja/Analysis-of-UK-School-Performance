@@ -217,7 +217,10 @@ def read_school_identification_information() -> pd.DataFrame:
         A pd.DataFrame containing the name and URN of every UK school.
     """
 
-    return None
+    with open('data/uk_school_identification_information.csv', 'r') as file:
+        uk_school_identification_information = pd.read_csv(file, index_col=0)
+
+    return uk_school_identification_information
 
 def scrape_school_identification_information() -> pd.DataFrame:
     """
