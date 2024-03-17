@@ -277,7 +277,7 @@ class TestDataAcquisition:
         # Assert
         assert set(parliamentary_constituent_list) == EXPECTED_PARLIAMENTARY_CONSTITUENT_LIST, "get_parliamentary_constituencies() did not return correct list"
 
-    def test_get_parliamentary_constituencies_file_does_not_exist_creates_correct_file(temp_data_directory_with_mock_user_agent_file, mock_requests_get_parliamentary_constituent_data):
+    def test_get_parliamentary_constituencies_file_does_not_exist_creates_correct_file(self, temp_data_directory_with_mock_user_agent_file, mock_requests_get_parliamentary_constituent_data):
         """
         Tests that calling the function 'get_parliamentary_constituencies' 
         when the file 'uk_parliamentary_constituencies.txt' does not exist
