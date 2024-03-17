@@ -94,6 +94,7 @@ from bs4 import BeautifulSoup
 import requests
 import os
 import pandas as pd
+from joblib import Parallel, delayed
 
 def get_user_agent() -> str:
     """
@@ -238,6 +239,114 @@ def scrape_school_identification_information() -> pd.DataFrame:
     uk_school_identification_information : pd.DataFrame
         A pd.DataFrame containing the name and URN of every UK school.
     """
+
+    parliamentary_constituencies = get_parliamentary_constituencies()
+
+    parliamentary_constituency_subsets = [parliamentary_constituencies[i:i+10] for i in range(0, len(parliamentary_constituencies), 10)]
+
+    school_identification_dataframes = Parallel(n_jobs=-2)(delayed(scrape_school_identification_information_subset_of_constituencies)(parliamentary_constituency_subset) for parliamentary_constituency_subset in parliamentary_constituency_subsets)
+
+    if school_identification_dataframes:
+        filtered_dataframes = [df for df in school_identification_dataframes if df is not None]
+
+    uk_school_identification_information = pd.concat(filtered_dataframes)
+
+    uk_school_identification_information.to_csv('data/uk_school_identification_information.csv')
+
+    uk_school_identification_information['school_urn'] = uk_school_identification_information['school_urn'].astype('int64')
+
+    return uk_school_identification_information
+
+def scrape_school_identification_information_subset_of_constituencies(parliamentary_constituencies: list[str]) -> pd.DataFrame:
+    """
+    Returns a pd.DataFrame containing the name and URN of all primary schools in the given parliamentary constituencies.
+
+    Calls the scrape_single_parliamentary_constituency_school_identification_information() function for each parliamentary constituency
+    in the given list of parliamentary constituencies and concatenates the resulting pd.DataFrames to obtain a single pd.DataFrame 
+    containing the name and URN of every primary school in the given parliamentary constituencies.
+
+    Parameters
+    ----------
+    parliamentary_constituencies : list[str]
+        A list of the parliamentary constituencies whose data is to be obtained.
+
+    Returns
+    -------
+    parliamentary_constituency_school_identification_information : pd.DataFrame
+        A pd.DataFrame containing the name and URN of every primary school in the given parliamentary constituencies.
+    """
+
+    parliamentary_constituency_school_identification_information = pd.DataFrame()
+
+    for parliamentary_constituency in parliamentary_constituencies:
+        parliamentary_constituency_school_identification_information = pd.concat([parliamentary_constituency_school_identification_information, scrape_single_parliamentary_constituency_school_identification_information(parliamentary_constituency)])
+
+    return parliamentary_constituency_school_identification_information
+
+def get_single_parliamentary_constituency_url(parliamentary_constituency: str) -> str:
+    """
+    Returns the URL to the .gov Web page containing the list of primary schools in the specified parliamentary constituency.
+
+    Parameters
+    ----------
+    parliamentary_constituency : str
+        The name of the parliamentary constituency whose data is to be obtained. 
+
+    Returns
+    -------
+    parliamentary_constituency_url : str
+        The url to the Web page containing the list of primary schools in the specified parliamentary constituency.
+
+    """
+    parliamentary_constituency_words = parliamentary_constituency.split()
+    formatted_parliamentary_constituency = '+'.join(parliamentary_constituency_words)
+
+    parliamentary_constituency_url = f'https://www.compare-school-performance.service.gov.uk/schools-by-type?step=default&table=schools&parliamentary={formatted_parliamentary_constituency}&geographic=parliamentary&for=primary'
+
+    return parliamentary_constituency_url
+
+def scrape_single_parliamentary_constituency_school_identification_information(parliamentary_constituency: str) -> pd.DataFrame:
+    """
+    Returns a pd.DataFrame containing the name and URN of all primary schools in the specified parliamentary constituency. 
+
+    Scrapes the gov.uk website to obtain and return a pd.DataFrame containing the name and Unique Identification Number (URN) for every primary school in the specified parliamentary constituency.
+
+    Parameters
+    ----------
+    parliamentary_constituency : str
+        The name of the parliamentary constituency whose data is to be obtained. 
+
+    Returns
+    -------
+    parliamentary_constituency_school_identification_information : pd.DataFrame
+        A pd.DataFrame containing the name and URN of every primary school in the specified parliamentary constituency.
+    """
+
+    parliamentary_constituency_url = get_single_parliamentary_constituency_url(parliamentary_constituency)
+
+    soup = get_soup(parliamentary_constituency_url)
+
+    rows = soup.select("table#establishment-list-view tbody tr")
+
+    school_names = []
+    school_urns = []
+    school_types = []
+
+    for row in rows:
+        if len(row['class']) > 0:
+            continue
+
+        school_urn = row['data-urn']
+        school_name = row.select('th a')[0].text.strip()
+        school_type = row.select('td[data-title="Type of school"] span.value')[0].text.strip()
+
+        school_urns.append(school_urn)
+        school_names.append(school_name)
+        school_types.append(school_type)
+
+    parliamentary_constituency_school_identification_information = pd.DataFrame({'school_name': school_names, 'school_urn': school_urns, 'type_of_school': school_types})
+
+    return parliamentary_constituency_school_identification_information
 
 def get_school_identification_information() -> pd.DataFrame:
     """
