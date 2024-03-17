@@ -12,6 +12,8 @@ from io import StringIO
 import DataAcquisition
 from typing import List
 
+from unittest.mock import patch
+
 EXPECTED_PARLIAMENTARY_CONSTITUENT_LIST = {'Aldershot', 'Aldridge-Brownhills', 'Altrincham and Sale West', 'Ashton-under-Lyne', 'Banbury'}
 
 EXPECTED_SINGLE_SCHOOL_PRIMARY_URL = "https://www.compare-school-performance.service.gov.uk/school/104241/st-anne's-catholic-primary-school%2c-streetly/primary"
@@ -419,7 +421,7 @@ class TestDataAcquisition:
         # Assert
         assert os.path.exists("data/uk_school_identification_information.csv") == True, "scrape_school_identification_information() did not create the file 'uk_school_identification_information.csv"
 
-    def test_scrape_school_identification_information_correct_return(self, temp_data_directory):
+    def test_scrape_school_identification_information_correct_return(self, temp_data_directory_with_mock_user_agent_file):
         """
         Tests that the pd.DataFrame returned by the function
         'scrape_school_identification_information()' is correct.
@@ -430,10 +432,11 @@ class TestDataAcquisition:
 
         # Arrange
         permanent_mock_data_file = Path.cwd() / "test_data" / "mock_uk_school_identification_information_test.csv"
-        uk_school_identification_information_mock_dataframe = pd.read_csv(permanent_mock_data_file, index_col=0)
+        uk_school_identification_information_mock_dataframe = pd.read_csv(permanent_mock_data_file, index_col=0, sep='|')
 
         # Act
-        school_identification_information_dataframe = DataAcquisition.scrape_school_identification_information()
+        with patch('DataAcquisition.get_parliamentary_constituencies', return_value=["Aldridge-Brownhills"]):
+            school_identification_information_dataframe = DataAcquisition.scrape_school_identification_information()
 
         # Assert
         pd.testing.assert_frame_equal(school_identification_information_dataframe, uk_school_identification_information_mock_dataframe)
