@@ -365,7 +365,12 @@ def get_school_identification_information() -> pd.DataFrame:
         A pd.DataFrame containing the name and URN of every UK school.
     """
 
-    return None
+    if os.path.isfile('data/uk_school_identification_information.csv'):
+        uk_school_identification_information = read_school_identification_information()
+    else:
+        uk_school_identification_information = scrape_school_identification_information()
+
+    return uk_school_identification_information
 
 def get_soup(url: str) -> BeautifulSoup:
     """
