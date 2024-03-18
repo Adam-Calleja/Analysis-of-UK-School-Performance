@@ -419,6 +419,12 @@ def get_single_school_primary_url(school_name: str, school_urn: str) -> str:
         data. 
     """
 
+    formatted_school_name = school_name.replace(' ', '-').replace(',', '%2c').lower()
+
+    school_primary_url = f"https://www.compare-school-performance.service.gov.uk/school/{school_urn}/{formatted_school_name}/primary"
+
+    return school_primary_url
+
 def get_single_school_primary_data(school_name: str, school_urn: str) -> pd.DataFrame:
     """
     Returns the results data for a given school
@@ -467,6 +473,12 @@ def get_single_school_absence_and_pupil_url(school_name: str, school_urn: str) -
         The url to the Web page containing the school's absence and 
         pupil population information.
     """
+
+    formatted_school_name = school_name.replace(' ', '-').replace(',', '%2c').lower()
+
+    school_absence_and_pupil_url = f"https://www.compare-school-performance.service.gov.uk/school/{school_urn}/{formatted_school_name}/absence-and-pupil-population"
+
+    return school_absence_and_pupil_url
 
 
 def get_single_school_absence_and_pupil_data(school_name: str, school_urn: str) -> pd.DataFrame: 
